@@ -6,6 +6,13 @@
 WINDOWS_SOURCE_VENV_SCRIPT=".venv/Scripts/activate" # Change this to the path of the activate script on Windows
 LINUX_SOURCE_VENV_SCRIPT=".venv/bin/activate" # Change this to the path of the activate script on Linux
 
+# Help Section
+alias help_aliases='echo -e "\
+-- To deactivate the SSH agent, run '\''deactivate_ssh_agent'\''.\n\
+-- To activate a Python virtual environment, run '\''activate_venv <path_to_venv>'\''.\n\
+-- For help, run '\''activate_venv --help'\'' or '\''deactivate_ssh_agent --help'\''.\n\
+-- status_ssh_agent to check the status of the SSH agent."'
+
 activate_venv() {
     if [ "$1" == "--help" ] || [ "$1" == "-h" ]; then
         echo "Usage:    activate <path>"

@@ -1,10 +1,10 @@
 #!/bin/bash
 # Bash configuration file
 # Function to print lines safely
-export PATH="$HOME/bin:$PATH"
-
-if [ -f "$HOME/.bashrc" ]; then
-    . ~/.bashrc
+if [ -n "$BASH_VERSION" ]; then
+    if [ -f "$HOME/.bashrc" ]; then
+        . ~/.bashrc
+    fi
 fi
 
 declare last_failed_command # Declare a variable to store the last failed command
@@ -36,10 +36,17 @@ case "${unameOut}" in
     *)          machine="UNKNOWN:   ${unameOut}"
 esac
 
+POSH_PATH_INSTALLATION="$HOME/.local/bin" # Change this to the path of the oh-my-posh installation directory
+if [ -f "$POSH_PATH_INSTALLATION/oh-my-posh" ]; then
+    if ! echo "$PATH" | grep -q "$POSH_PATH_INSTALLATION"; then # Check if the path is already in the PATH variable
+        PATH="$POSH_PATH_INSTALLATION:$PATH"
+    fi
+fi
+
 if oh-my-posh --version &> /dev/null; then
     OH_MY_POSH_THEMES_PATH="tokyo.omp.json" # Change this to the name of the theme file
     SHELL_ENVIRONMENT=$(oh-my-posh get shell) # Get the current shell environment
-    POSH_THEMES_PATH="<Your_path_to_themes_of_oh_my_posh>"
+    POSH_THEMES_PATH="$HOME/.cache/oh-my-posh/themes" # Change this to the path of the oh-my-posh themes directory
 
     # Configure oh-my-posh based on the detected machine type
     case "${machine}" in

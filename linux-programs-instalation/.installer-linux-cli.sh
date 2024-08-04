@@ -4,44 +4,7 @@
 # Check this file before running it
 # This script installs the following programs:
 # - oh-my-posh
-# - nerd-fonts
 # - fastfetch
-
-# Plugin nnn installation
-# docs: https://github.com/jarun/nnn/blob/master/plugins/README.md
-# Use this env variable to the installation
-
-
-# Create a file to add plugins to nnn
-touch ~/.config/nnn/plugins
-
-# Function to install nerd-fonts
-install_nerd_fonts() {
-    echo "Installing nerd-fonts..."
-    sudo apt-get install fonts-firacode
-}
-
-# Check if fontconfig is installed
-# fontconfig is required for fc-list to work, used to check if nerd-fonts is installed
-if ! command -v fc-list &> /dev/null; then
-    echo "fontconfig is not installed. Installing fontconfig..."
-    sudo apt-get install fontconfig
-fi
-
-# Check if nerd-fonts is installed
-if ! fc-list | grep -i "nerd"; then
-    echo "nerd-fonts is not installed."
-    read -p "Do you want to install nerd-fonts? (y/n): " choice
-    if [[ "$choice" == "y" || "$choice" == "Y" ]]; then
-        install_nerd_fonts
-        O_NERD=1
-    else
-        echo "Skipping nerd-fonts installation."
-        O_NERD=0
-    fi
-else
-    echo "nerd-fonts is already installed."
-fi
 
 # Function to install oh-my-posh
 install_oh_my_posh() {

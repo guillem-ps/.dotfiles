@@ -1,28 +1,39 @@
-# Easy Migration Configurations
+# dotfiles ☕
 
 > Nothing like home 🏡
 
-This private repository contains basic configuration files for different applications to facilitate easy migration across devices. The configurations included are specifically tailored for personal use and are not intended for public distribution or use.
+This repository contains basic configuration files for different applications to facilitate easy migration across devices. 
 
-## Repository Contents
+## Table of Contents
+- [Structure](#structure)
+- [Installation](#installation)
+<br><br>
 
-- **bash/**: Contains configurations for the Bash shell, including `.bashrc` and other related scripts.
-- **windows-terminal/**: Holds configuration files for Windows Terminal, such as `settings.json` for terminal profiles and appearances.
+## Structure
 
-## Purpose
+- **bash/**: Contains configurations for the Bash shell, including `.bash_aliases` and `.profile`.
+- **fonts/**: Contains font files, including the Cascadia Code font in various styles.
+- **git/**: Holds Git configuration files, including `.gitconfig`, `.gitignore`, and profiles for different environments.
+- **linux-programs-instalation/**: Contains scripts for installing programs on Linux, such as `.installer-linux-cli.sh`.
+- **python/**: Contains Python-related configuration files, including `.pypirc` and `ruff.toml`.
+- **windows-programs-instalation/**: Contains scripts for installing programs on Windows, such as `instalation-script.ps1`.
+- **windows-terminal/**: Holds configuration files for Windows Terminal, such as `terminal_settings.json`.
 
-The sole purpose of this repository is to store and sync personal configuration files across multiple devices. It ensures a consistent development environment and makes it easier to set up new machines.
-
-## Usage
-
+## Installation
 1. Clone the repository to your local machine:
+    Using SSH:
     ```bash
-    git clone https://github.com/your-username/easy-migration.git
+    git clone git@github.com:guillem_ps/dotfiles.git ~/.dotfiles
+    ```
+
+    Using HTTPS:
+    ```bash
+    git clone https://github.com/guillem_ps/dotfiles.git ~/.dotfiles
     ```
 
 2. Navigate to the cloned directory:
     ```bash
-    cd easy-migration
+    cd ~/.dotfiles
     ```
 
 3. Copy the desired configuration files to their respective locations. For example:
@@ -32,26 +43,13 @@ The sole purpose of this repository is to store and sync personal configuration 
       source ~/.bashrc
       ```
 
-    - For VS Code settings:
-      ```bash
-      cp -r vscode/* ~/.config/Code/User/
-      ```
+- For Windows Terminal configurations:
+    In Command Prompt:
+    ```cmd
+    copy windows-terminal\terminal_settings.json <path\to\Windows\Terminal\>
+    ```
 
-    - For Windows Terminal configurations:
-      ```bash
-      cp windows-terminal/settings.json /path/to/Windows/Terminal/
-      ```
-
-## Note
-
-- These configurations are customized for personal use. Adjust them as needed to fit your requirements.
-- This repository is private and intended only for personal use to manage and sync configurations. It is not meant for public distribution.
-
-## Contributions
-
-Since this is a private repository for personal configurations, contributions are not expected or required.
-
-## License
-
-This repository does not contain code intended for distribution, so no licensing is provided. It is purely for storing personal configuration files. 
-
+    In PowerShell:
+    ```powershell
+    Copy-Item -Path "windows-terminal\terminal_settings.json" -Destination "<path\to\Windows\Terminal\>"
+    ```

@@ -1,55 +1,19 @@
 
 # Alias: 
 
-# activate
-# Activate Python virtual environment  
-WINDOWS_SOURCE_VENV_SCRIPT=".venv/Scripts/activate" # Change this to the path of the activate script on Windows
-LINUX_SOURCE_VENV_SCRIPT=".venv/bin/activate" # Change this to the path of the activate script on Linux
-
 # Help Section
-alias help_aliases='echo -e "\
--- To deactivate the SSH agent, run '\''deactivate_ssh_agent'\''.\n\
--- To activate a Python virtual environment, run '\''activate_venv <path_to_venv>'\''.\n\
--- For help, run '\''activate_venv --help'\'' or '\''deactivate_ssh_agent --help'\''.\n\
--- status_ssh_agent to check the status of the SSH agent."'
+alias alias\?='echo -e "\
+-- Alias --\n\
+alias\? : Display all aliases\n\
+-- Python --\n\
+py? : Display all python aliases\n\
+-- Network --\n\
+net? : Display all network aliases\n\
+-- Help --\n\
+"'
 
-activate_venv() {
-    if [ "$1" == "--help" ] || [ "$1" == "-h" ]; then
-        echo "Usage:    activate <path>"
-        echo "This function activates a Python virtual environment located at the specified path."
-        echo
-        echo "Arguments:   "
-        echo "  <path>    The path to the directory containing the .venv directory."
-        echo
-        echo "Examples:   "
-        echo "  activate /path/to/your/project"
-        echo "  activate ."
-        return 0
-    fi
 
-    if [ -z "$1" ]; then
-        echo "Usage:    activate <path>"
-        return 1
-    fi
-
-    if [ ! -d "$1/.venv" ]; then
-        echo "No .venv directory found in $1"
-        return 1
-    fi
-
-    # shellcheck disable=SC1090
-    if [ -f "$1/$WINDOWS_SOURCE_VENV_SCRIPT" ]; then
-        source "$1/$WINDOWS_SOURCE_VENV_SCRIPT"
-    elif [ -f "$1/$LINUX_SOURCE_VENV_SCRIPT" ]; then
-        source "$1/$LINUX_SOURCE_VENV_SCRIPT"
-    else
-        echo "No activate script found in $1/.venv"
-        return 1
-    fi
-
-    pip --version
-    return 0
-}
+# SSH section
 
 # deactivate_ssh_agent
 # Deactivate the running ssh-agent session
@@ -75,6 +39,7 @@ deactivate_ssh_agent() {
     
     return 0
 }
+alias notssh='deactivate_ssh_agent'
 
 # ssh_agent_status
 # Check the status of the running SSH agent
@@ -101,3 +66,150 @@ status_ssh_agent() {
 
     return 0
 }
+alias ssh?='status_ssh_agent'
+
+# Python functions
+
+# Function to display Python aliases
+function show_python_aliases() {
+    echo -e "\
+-- Python Aliases --\n\
+py : python\n\
+python3 : python\n\
+create : new_pyvenv\n\
+activate : set_pyvenv_active\n\
+remove : remove_pyvenv\n\
+install : install_dev_requirements\n\
+installr : install_requirements\n\
+installd : install_dev_requirements\n\
+pipi : pip install\n\
+pipu : pip uninstall\n\
+pips : pip show\n\
+pipl : pip list\n\
+"
+}
+
+# Alias to call the function
+alias py\?='show_python_aliases'
+
+function set_pyvenv_active() {
+    local venv_name="$1"
+    if [ "$1" == "--help" ] || [ "$1" == "-h" ]; then
+        echo "Usage:    set_pyvenv_active <venv_name>"
+        echo "This function activates a Python virtual environment located at the specified path."
+        echo
+        echo "Arguments:   "
+        echo "  <venv_name>    The name of the virtual environment directory."
+        echo
+        echo "Examples:   "
+        echo "  set_pyvenv_active /path/to/your/project"
+        echo "  set_pyvenv_active ."
+        return 0
+    fi
+
+    if [ -z "$venv_name" ]; then
+        venv_name=".venv"
+    fi
+
+    source "$venv_name/bin/activate"
+
+    pip --version
+    return 0
+}
+
+function new_pyvenv() {
+    local venv_name="$1"
+    if [ -z "$venv_name" ]; then
+        venv_name=".venv"
+    fi
+
+    if [ -d "$venv_name" ]; then
+        return
+    fi
+
+    python -m venv "$venv_name"
+    set_pyvenv_active "$venv_name"
+    python -m pip install --upgrade pip
+}
+
+function remove_pyvenv() {
+    local venv_name="$1"
+    if [ -z "$venv_name" ]; then
+        venv_name=".venv"
+    fi
+
+    if [ ! -d "$venv_name" ]; then
+        return
+    fi
+
+    if command -v deactivate &> /dev/null; then
+        deactivate
+    fi
+
+    rm -rf "$venv_name"
+}
+
+function install_requirements() {
+    local requirements_file="$1"
+    if [ -z "$requirements_file" ]; then
+        requirements_file="requirements.txt"
+    fi
+
+    pip install -r "$requirements_file"
+}
+
+function install_dev_requirements() {
+    install_requirements "requirements_dev.txt"
+}
+
+# Python aliases
+alias py='python'
+alias python3='python'
+
+alias create='new_pyvenv'
+alias activate='set_pyvenv_active'
+# deactivate is a built-in command in Python
+alias remove='remove_pyvenv'
+
+alias install='install_dev_requirements'
+alias installr='install_requirements'
+alias installd='install_dev_requirements'
+
+alias pipi='pip install'
+alias pipu='pip uninstall'
+alias pips='pip show'
+alias pipl='pip list'
+
+
+# Network Section
+
+function show_network_aliases() {
+    echo -e "\
+-- Network Aliases --\n\
+myip : get_ip_address\n\
+localip : get_local_ip_address\n\
+"
+}
+
+alias net\?='show_network_aliases'
+
+function get_ip_address() {
+    dig +short myip.opendns.com @resolver1.opendns.com
+}
+
+function get_local_ip_address() {
+    interfaces_to_check=("wlan0" "eth0")  # Add more interfaces if needed
+
+    for interface in "${interfaces_to_check[@]}"; do
+        ip=$(ip -4 addr show "$interface" | grep -oP '(?<=inet\s)\d+(\.\d+){3}')
+        if [[ -n $ip ]]; then
+            echo "$ip"
+            return
+        fi
+    done
+}
+
+# Extra aliases
+alias myip='get_ip_address'
+alias localip='get_local_ip_address'
+

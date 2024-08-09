@@ -1,14 +1,29 @@
 {
-  "name": "my-theme",
-  "displayName": "my-theme",
-  "description": "My custom theme",
+  "name": "github-contrast-theme",
+  "displayName": "Custom github-contrast-theme",
+  "description": "Rainglow's github-contrast theme for Visual Studio Code with a few tweaks",
   "version": "0.0.1",
+  "contributors": [
+    {
+      "name": "Guillem Pozo S.",
+      "url": "https://github.com/guillem-ps"
+    }
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/guillem-ps/.dotfiles"
+  },
+  "publisher": "", 
   "engines": {
     "vscode": "^1.92.0"
   },
   "categories": [
     "Themes"
   ],
+  "author": {
+    "name": "Dayle Rees",
+    "email": "me@daylerees.com"
+  },
   "contributes": {
     "themes": [
       {
@@ -17,5 +32,6 @@
         "path": "./themes/my-theme-color-theme.json"
       }
     ]
-  }
+  },
+  "license": "MIT"
 }

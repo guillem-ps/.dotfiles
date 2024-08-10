@@ -2,7 +2,7 @@
 # Alias: 
 
 # Help Section
-alias alias\?='echo -e "\
+alias \?='echo -e "\
 -- Alias --\n\
 alias\? : Display all aliases\n\
 -- Python --\n\
@@ -12,6 +12,10 @@ net? : Display all network aliases\n\
 -- Help --\n\
 "'
 
+alias alias?='
+show_python_aliases
+show_network_aliases
+'
 
 # SSH section
 

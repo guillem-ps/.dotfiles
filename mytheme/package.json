@@ -2,20 +2,20 @@
   "name": "github-contrast-theme",
   "displayName": "Custom github-contrast-theme",
   "description": "Rainglow's github-contrast theme for Visual Studio Code with a few tweaks",
-  "version": "0.0.1",
   "contributors": [
     {
       "name": "Guillem Pozo S.",
       "url": "https://github.com/guillem-ps"
     }
   ],
+  "version": "1.0.0",
   "repository": {
     "type": "git",
     "url": "https://github.com/guillem-ps/.dotfiles"
   },
   "publisher": "guillem-ps",
   "engines": {
-    "vscode": "^1.92.0"
+    "vscode": "^1.92.1"
   },
   "categories": [
     "Themes"

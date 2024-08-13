@@ -12,6 +12,9 @@ Here are the plugins I recommend:
 
 ## Installation
 
+> [!WARNING]
+> If you installed the plugins after the copy of .bash_alias, you must copy the .bash_alias from the repository to your home directory again.
+
 To make the installation process easier, there is also a bash script available that will prompt you to install each plugin. If you encounter any issues with the installation or if you are not using Ubuntu or Debian, it is recommended to visit the respective GitHub repositories for more detailed installation instructions.
 
 >[!NOTE]

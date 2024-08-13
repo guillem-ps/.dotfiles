@@ -4,9 +4,6 @@
 # Paste the file to /home/your_user/ (or ~) and make source from .bash_aliases
 # If you want to use it, consider to check the readme and execute the plugin_installation.sh script
 
-# NOTE: If you installed the plugins after the copy of .bash_alias, you must copy the .bash_alias from the reposotory to your home directory again.
-
-
 ## Exa alias:
 if [ -f $(which exa) ]; then
     alias l='exa --icons'

@@ -11,7 +11,7 @@ This repository contains basic configuration files for different applications to
 
 ## Structure
 
-- **bash/**: Contains configurations for the Bash shell, including `.bash_aliases` and `.profile`.
+- **bash/**: Contains configurations for the Bash shell, including `.bash_aliases` and `.profile`, and extra usefull plugins.
 - **fonts/**: Contains font files, including the Cascadia Code font in various styles.
 - **git/**: Holds Git configuration files, including `.gitconfig`, `.gitignore`, and profiles for different environments.
 - **linux-programs-instalation/**: Contains scripts for installing programs on Linux, such as `.installer-linux-cli.sh`.
@@ -36,12 +36,21 @@ This repository contains basic configuration files for different applications to
     cd ~/.dotfiles
     ```
 
-3. Copy the desired configuration files to their respective locations. For example:
-    - For Bash configurations:
-      ```bash
-      cp bash/.bashrc ~/
-      source ~/.bashrc
-      ```
+3. Copy the desired configuration files to their respective locations. 
+
+> [!IMPORTANT]
+> Please read the README file in the plugins directory before copying.
+
+
+### For example:
+- For Bash configurations:
+    ```bash
+    cp bash/.bashrc ~/
+    cp bash/.profile ~/
+    cp bash/.bash_aliases
+    cp bash/plugins/.extra_alias ~/.extra_alias # OPTIONAL
+    source ~/.bashrc
+    ```
 
 - For Windows Terminal configurations:
     In Command Prompt:
@@ -53,3 +62,8 @@ This repository contains basic configuration files for different applications to
     ```powershell
     Copy-Item -Path "windows-terminal\terminal_settings.json" -Destination "<path\to\Windows\Terminal\>"
     ```
+
+## Additional Information
+
+- For more details on the custom VS Code theme, refer to the [`mytheme`](/mytheme/).
+- For useful terminal plugins and their installation, refer to the [`bash/plugins`](/bash/plugins/).

@@ -14,7 +14,8 @@ Here are the plugins I recommend:
 
 To make the installation process easier, there is also a bash script available that will prompt you to install each plugin. If you encounter any issues with the installation or if you are not using Ubuntu or Debian, it is recommended to visit the respective GitHub repositories for more detailed installation instructions.
 
-Please note that gping is not part of the script, as it is a more specialized tool.
+>[!NOTE]
+>Please note that **gping** is not part of the script, as it is a more specialized tool.
 
 ## Advice
 

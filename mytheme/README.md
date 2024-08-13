@@ -4,7 +4,8 @@
 
 ### Easy Path
 
-You can find my custom theme in the Visual Studio Code marketplace. You are free to use or modify it, and a positive rating is always welcomed. 😉
+You can find [Custom github-contrast-theme
+](https://marketplace.visualstudio.com/items?itemName=guillem-ps.github-contrast-theme) in the Visual Studio Code marketplace. You are free to use or modify it, and a positive rating is always welcomed. 😉
 
 ### Manual Installation
 

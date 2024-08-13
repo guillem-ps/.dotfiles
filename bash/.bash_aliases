@@ -217,3 +217,7 @@ function get_local_ip_address() {
 alias myip='get_ip_address'
 alias localip='get_local_ip_address'
 
+# Source extra aliases if the file exists
+if [ -f ~/.extra_alias ]; then
+    source ~/.extra_alias
+fi

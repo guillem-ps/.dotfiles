@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Extra aliases
-# Paste theme in to .bash_aliases file to use it
+# Paste the file to /home/your_user/ (or ~) and make source from .bash_aliases
 # If you want to use it, consider to check the readme and execute the plugin_installation.sh script
 
 ## Exa alias:

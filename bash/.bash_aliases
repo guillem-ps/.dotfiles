@@ -221,3 +221,32 @@ alias localip='get_local_ip_address'
 if [ -f ~/.extra_alias ]; then
     source ~/.extra_alias
 fi
+
+# Alias to check installed plugins and explain aliases
+alias plugins?='
+    echo "Checking installed plugins and explaining aliases..."
+    if [ -f $(which exa) ]; then
+        echo "exa is installed:"
+        exa --version
+        echo "Aliases for exa:"
+        echo "  l  - exa with icons"
+        echo "  la - exa with all files"
+        echo "  ll - exa with long format and human-readable sizes"
+        echo "  ls - exa with icons"
+        echo "  lr - exa recursively with icons"
+    fi
+
+    if [ -f $(which batcat) ]; then
+        echo "batcat is installed:"
+        batcat --version
+        echo "Alias for batcat:"
+        echo "  bat - batcat (for Ubuntu/Debian based systems)"
+    fi
+
+    if [ -f $(which fzf) ]; then
+        echo "fzf is installed:"
+        fzf --version
+        echo "Function for fzf:"
+        echo "  batman - Uses fzf with bat for preview and opens selected file in vim"
+    fi
+'

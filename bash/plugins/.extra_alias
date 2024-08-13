@@ -13,7 +13,7 @@ if [ -f $(which exa) ]; then
     alias lr='exa -R --icons'
 fi 
 
-# Fzf alias:
+## Fzf alias:
 
 if [ -f $(which batcat) ]; then 
     alias bat='batcat' # Use bat for Ubuntu/Debian based systems    

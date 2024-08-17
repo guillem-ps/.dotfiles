@@ -9,12 +9,16 @@ alias\? : Display all aliases\n\
 py? : Display all python aliases\n\
 -- Network --\n\
 net? : Display all network aliases\n\
--- Help --\n\
+
+-- Plugins --\n\
+plugins? : Check installed plugins and explain aliases\n\
+For more information, check the docs: .dotfiles/bash/plugins readme.md file\n\
 "'
 
 alias alias?='
 show_python_aliases
 show_network_aliases
+plugins?
 '
 
 # SSH section
@@ -228,10 +232,11 @@ if [ -f ~/.extra_alias ]; then
     source ~/.extra_alias
 fi
 
+
 # Alias to check installed plugins and explain aliases
-alias plugins?='
+function show_plugins() {
     echo "Checking installed plugins and explaining aliases..."
-    if [ -f $(which exa) ]; then
+    if command -v exa &> /dev/null; then
         echo "exa is installed:"
         exa --version
         echo "Aliases for exa:"
@@ -242,17 +247,19 @@ alias plugins?='
         echo "  lr - exa recursively with icons"
     fi
 
-    if [ -f $(which batcat) ]; then
+    if command -v batcat &> /dev/null; then
         echo "batcat is installed:"
         batcat --version
         echo "Alias for batcat:"
         echo "  bat - batcat (for Ubuntu/Debian based systems)"
     fi
 
-    if [ -f $(which fzf) ]; then
+    if command -v fzf &> /dev/null; then
         echo "fzf is installed:"
         fzf --version
         echo "Function for fzf:"
         echo "  batman - Uses fzf with bat for preview and opens selected file in vim"
     fi
-'
+}
+
+alias plugins?='show_plugins'

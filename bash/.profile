@@ -79,6 +79,9 @@ function start_agent {
     /usr/bin/ssh-add -t "${SSH_KEY_TIMEOUT}" "${SSH_KEY_PATH}" > /dev/null;
 }
 
+# Alias to reload SSH service, execute notssh, and start the SSH agent
+alias reloadssh='notssh && start_agent'
+
 # Source SSH settings, if applicable
 
 if [ -f "${SSH_ENV}" ]; then

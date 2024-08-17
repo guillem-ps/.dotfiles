@@ -65,25 +65,13 @@ if oh-my-posh --version &> /dev/null; then
     esac
 fi
 
+# SSH configuration
 SSH_KEY_NAME="<name_of_private_key>" # Change this to the name of your SSH key
 SSH_KEY_PATH="$HOME/.ssh/$SSH_KEY_NAME" # Change this to the path of your SSH key
 SSH_KEY_TIMEOUT=3600 # 1 hour in seconds
 SSH_ENV="$HOME/.ssh/agent-environment"
-function start_agent {
-     echo "Initialising new SSH agent..."
-     /usr/bin/ssh-agent | sed 's/^echo/#echo/' > "${SSH_ENV}"
-     echo succeeded
-     chmod 600 "${SSH_ENV}"
-     # shellcheck disable=SC1090
-     . "${SSH_ENV}" > /dev/null
-    /usr/bin/ssh-add -t "${SSH_KEY_TIMEOUT}" "${SSH_KEY_PATH}" > /dev/null;
-}
-
-# Alias to reload SSH service, execute notssh, and start the SSH agent
-alias reloadssh='notssh && start_agent'
 
 # Source SSH settings, if applicable
-
 if [ -f "${SSH_ENV}" ]; then
      # shellcheck disable=SC1090
      . "${SSH_ENV}" > /dev/null

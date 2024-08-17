@@ -47,7 +47,21 @@ deactivate_ssh_agent() {
     
     return 0
 }
+
+# Function to start the SSH agent
+start_agent() {
+     echo "Initialising new SSH agent..."
+     /usr/bin/ssh-agent | sed 's/^echo/#echo/' > "${SSH_ENV}"
+     echo succeeded
+     chmod 600 "${SSH_ENV}"
+     # shellcheck disable=SC1090
+     . "${SSH_ENV}" > /dev/null
+    /usr/bin/ssh-add -t "${SSH_KEY_TIMEOUT}" "${SSH_KEY_PATH}" > /dev/null;
+}
+
 alias notssh='deactivate_ssh_agent'
+# Alias to reload SSH service, execute notssh, and start the SSH agent
+alias reloadssh='notssh && start_agent'
 
 # ssh_agent_status
 # Check the status of the running SSH agent

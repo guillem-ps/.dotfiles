@@ -11,12 +11,18 @@ This repository contains basic configuration files for different applications to
 
 ## Structure
 
-- **bash/**: Contains configurations for the Bash shell, including `.bash_aliases` and `.profile`, and extra usefull plugins.
+- **bash/**: Contains configurations for the Bash shell, including `.bash_aliases`, `.profile`, and plugins.
+  - **plugins/**: Contains additional plugins and scripts for Bash.
+    - `.extra_alias`: Optional extra aliases for Bash.
+    - `plugins_installation.sh`: Script to install plugins.
 - **fonts/**: Contains font files, including the Cascadia Code font in various styles.
+  - **cascadia_code/**: Contains different styles of the Cascadia Code font.
 - **git/**: Holds Git configuration files, including `.gitconfig`, `.gitignore`, and profiles for different environments.
-- **linux-programs-instalation/**: Contains scripts for installing programs on Linux, such as `.installer-linux-cli.sh`.
+  - **profiles/**: Contains different Git profiles.
+- **mytheme/**: Contains a custom VS Code theme, including `package.json`, `README.md`, and theme configuration files.
+  - **themes/**: Contains theme configuration files.
 - **python/**: Contains Python-related configuration files, including `.pypirc` and `ruff.toml`.
-- **windows-programs-instalation/**: Contains scripts for installing programs on Windows, such as `instalation-script.ps1`.
+- **tmux/**: Contains configuration files for tmux, including `.tmux.conf`.
 - **windows-terminal/**: Holds configuration files for Windows Terminal, such as `terminal_settings.json`.
 
 ## Installation
@@ -41,13 +47,12 @@ This repository contains basic configuration files for different applications to
 > [!IMPORTANT]
 > Please read the README file in the plugins directory before copying.
 
-
 ### For example:
 - For Bash configurations:
     ```bash
     cp bash/.bashrc ~/
     cp bash/.profile ~/
-    cp bash/.bash_aliases
+    cp bash/.bash_aliases ~/
     cp bash/plugins/.extra_alias ~/.extra_alias # OPTIONAL
     source ~/.bashrc
     ```

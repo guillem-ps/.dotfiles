@@ -1,4 +1,4 @@
-# Dotfiles
+# Bash scripts 👾
 
 This directory contains various bash scripts and configurations for enhancing your command line experience.
 

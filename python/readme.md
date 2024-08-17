@@ -63,10 +63,3 @@ Ruff is a fast and highly configurable linter and formatter for Python code. It 
 - [Ruff Vscode GitHub Repository](https://github.com/astral-sh/ruff-vscodef)
 
 For more information, please refer to the official documentation and repository.
-
-## Usage
-
-To use the Ruff formatter with the provided configuration, ensure that you have Ruff installed and run the following command:
-
-```sh
-ruff check .

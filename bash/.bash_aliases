@@ -192,6 +192,12 @@ function show_network_aliases() {
 -- Network Aliases --\n\
 myip : get_ip_address\n\
 localip : get_local_ip_address\n\
+
+-- SSH Aliases --\n\
+notssh : deactivate_ssh_agent\n\
+ssh? : status_ssh_agent\n\
+reloadssh : notssh && start_agent\n\
+start_agent : start_agent\n\
 "
 }
 

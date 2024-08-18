@@ -22,7 +22,7 @@ This repository contains basic configuration files for different applications to
 - **mytheme/**: Contains a custom VS Code theme, including `package.json`, `README.md`, and theme configuration files.
   - **themes/**: Contains theme configuration files.
 - **python/**: Contains Python-related configuration files, including `.pypirc` and `ruff.toml`.
-- **tmux/**: Contains configuration files for tmux, including `.tmux.conf`.
+- **tmux/**: Contains configuration files for tmux, including `tmux.conf`.
 - **windows-terminal/**: Holds configuration files for Windows Terminal, such as `terminal_settings.json`.
 
 ## Installation
@@ -72,3 +72,4 @@ This repository contains basic configuration files for different applications to
 
 - For more details on the custom VS Code theme, refer to the [`mytheme`](/mytheme/).
 - For useful terminal plugins and their installation, refer to the [`bash/plugins`](/bash/plugins/).
+- For tmux custom configuration, refer to the [`tmux`](/tmux/)

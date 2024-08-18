@@ -32,5 +32,9 @@ done
 # Source: https://www.linode.com/docs/guides/how-to-install-and-use-the-bat-command-on-linux/
 if [ -f $(which batcat) ]; then 
     mkdir -p ~/.local/bin
-    ln -s /usr/bin/batcat ~/.local/bin/bat
+    if [ ! -L ~/.local/bin/bat ]; then
+        ln -s /usr/bin/batcat ~/.local/bin/bat
+    else
+        echo "Symbolic link ~/.local/bin/bat already exists."
+    fi
 fi

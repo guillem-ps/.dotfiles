@@ -1,7 +1,8 @@
 # Linux Git Configuration
 
 [gpg "ssh"]
-	program =
+    program =
 
 [core]
-	sshCommand =
+    # Specify the SSH command to use for Git operations
+    sshCommand =

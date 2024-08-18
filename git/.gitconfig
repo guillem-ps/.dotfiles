@@ -1,81 +1,162 @@
 # Global Git Configuration
 
 [user]
-	name =
-	username =
-	email =
-  	signingkey =
+    email = your-email@example.com
+    name = Your Name
+    username = your-username
+    signingkey = your-signing-key
 
 [gpg]
-  	format = ssh
+    format = ssh
 
 [gpg "ssh"]
-	program =
+    program =
 
 [core]
-	sshCommand = C:/Windows/System32/OpenSSH/ssh.exe
+    sshCommand = C:/Windows/System32/OpenSSH/ssh.exe
 
-	pager = more
-	editor = code --wait
+    pager = more
+    editor = code --wait
 
     excludesfile = ~/.gitignore
     attributesfile = ~/.gitattributes
 
-	# Prevent showing files whose names contain non-ASCII symbols as unversioned.
-	# http://michael-kuehnel.de/git/2014/11/21/git-mac-osx-and-german-umlaute.html
-	precomposeunicode = false
+    # Prevent showing files whose names contain non-ASCII symbols as unversioned.
+    # http://michael-kuehnel.de/git/2014/11/21/git-mac-osx-and-german-umlaute.html
+    precomposeunicode = false
 
-	# Speed up commands involving untracked files such as `git status`.
+    # Speed up commands involving untracked files such as `git status`.
     # https://git-scm.com/docs/git-update-index#_untracked_cache
     untrackedCache = true
 
-	# Treat spaces before tabs, lines that are indented with 8 or more spaces, and
+    # Treat spaces before tabs, lines that are indented with 8 or more spaces, and
     # all kinds of trailing whitespace as an error.
     # [default] trailing-space: looks for spaces at the end of a line
     # [default] space-before-tab: looks for spaces before tabs at the beginning of
     # a line
     whitespace = space-before-tab,tab-in-indent,trailing-space,tabwidth=4
 
+    compression = 0
 [apply]
-	whitespace = fix
+    whitespace = fix
 
 [init]
-	defaultBranch = develop
+    defaultBranch = develop
 
 [commit]
-	# https://help.github.com/articles/signing-commits-using-gpg/
-	gpgsign = true
+    # https://help.github.com/articles/signing-commits-using-gpg/
+    gpgsign = false
 
 [push]
-	default = simple
-
+    default = simple
+    autoRemoteSetup = true
 [pull]
-	rebase = false
+    rebase = false
 
 [fetch]
     # Fetch all tags in addition to branches
     tags = true
 
 [branch]
-	# Show most recently changed branches first.
-	sort = -committerdate
+    # Show most recently changed branches first.
+    sort = -committerdate
 
 [diff]
-	# Detect copies as well as renames
-	renames = copies
+    # Detect copies as well as renames
+    renames = copies
 
 [help]
-	# Automatically correct and execute mistyped commands
-	autocorrect = 1
+    # Automatically correct and execute mistyped commands
+    autocorrect = 1
 
 [color]
     ui = auto
 
 [rerere]
-	enabled = true
+    enabled = true
 
 [includeIf "gitdir:<path>"]
     path = ~/.dotfiles/git/profiles/work.gitconfig
 
 [includeIf "gitdir:/home/"]
     path = ~/.dotfiles/git/profiles/linux.gitconfig
+[alias]
+    # Add:
+    a   = !git ls-files -m --exclude-standard | fzf --preview 'git diff --color=always {}' --print0 -m | xargs -0 -t -o git add --patch # Add modified files interactively using fzf for selection
+    aa  = add # Shortcut for 'git add'
+    ap  = add --patch # Add changes interactively
+
+    # Branch:
+    b   = !git for-each-ref --count=30 --sort=-committerdate refs/heads/ --format='%(refname:short)' | fzf --no-hscroll --no-multi --ansi --preview 'git --no-pager log -50 --pretty=format:\"%h  %an (%ar)  %s\" {}' --print0 | xargs -0 -t -o git checkout # Checkout a branch interactively using fzf for selection
+    bc  = !git symbolic-ref --short HEAD | tr -d '\\n' # Get the current branch name
+
+    # Commit:
+    c   = commit # Shortcut for 'git commit'
+    ca  = commit --amend # Amend the last commit
+
+    # Config:
+    cc  = !git log --pretty=format:'%h' -n 1 | tr -d '\\n' # Get the last commit hash
+    ccl = !git rev-parse HEAD | tr -d '\\n' # Get the full hash of the last commit
+
+    # Checkout:
+    co  = checkout # Shortcut for 'git checkout'
+    cob = checkout -b # Create and checkout a new branch
+    cop = checkout --patch # Checkout changes interactively
+    cot = !sh -c 'git checkout -t origin/'$1'' - # Checkout a remote branch and track it locally
+
+    # Cherry-pick:
+    cp  = cherry-pick # Shortcut for 'git cherry-pick'
+
+    # Diff:
+    d   = diff # Shortcut for 'git diff'
+    ds  = diff --color # Show diff with color
+
+    # Fetch:
+    f   = fetch # Shortcut for 'git fetch'
+
+    # Pull:
+    fp  = pull --ff-only # Pull with fast-forward only
+
+    # Log:
+    l   = log --graph --stat # Show log with graph and stats
+    ll  = log --graph --abbrev-commit --decorate --date=relative --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)%C(bold yellow)%d%C(reset)' --all # Show detailed log with graph and decorations
+    lp  = log -p # Show log with patches
+    ls  = diff-tree --stat -r HEAD~0 # Show diff stats for the last commit
+
+    # Push:
+    p   = pull # Shortcut for 'git pull'
+    pu  = push # Shortcut for 'git push'
+    puf = push --force # Force push
+
+    # Rebase:
+    r   = rebase # Shortcut for 'git rebase'
+    ra  = rebase --abort # Abort the current rebase
+    rc  = rebase --continue # Continue the current rebase
+    ri  = rebase --interactive # Start an interactive rebase
+    rs  = rebase --skip # Skip the current rebase step
+
+    # Status:
+    s   = status --branch # Show the status in short format with branch info
+
+    # Stash:
+    st  = stash # Shortcut for 'git stash'
+
+    # Set upstream:
+    su  = !git branch --set-upstream-to=origin/`git symbolic-ref --short HEAD` # Set the upstream branch for the current branch[color]
+    status = auto
+    ui = true
+[color "status"]
+    added = green
+    changed = yellow
+    deleted = red
+    untracked = magenta
+[filter "media"]
+    clean = git-media-clean %f
+    smudge = git-media-smudge %f
+[init]
+    defaultBranch = main
+[pack]
+    windowMemory = 10m
+    packSizeLimit = 20m
+[pager]
+    difftool = true

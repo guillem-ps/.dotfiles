@@ -6,12 +6,6 @@
     username = your-username
     signingkey = your-signing-key
 
-[gpg]
-    format = ssh
-
-[gpg "ssh"]
-    program =
-
 [core]
     sshCommand = C:/Windows/System32/OpenSSH/ssh.exe
 

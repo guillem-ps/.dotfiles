@@ -15,8 +15,7 @@ This repository contains basic configuration files for different applications to
   - **plugins/**: Contains additional plugins and scripts for Bash.
     - `.extra_alias`: Optional extra aliases for Bash.
     - `plugins_installation.sh`: Script to install plugins.
-- **fonts/**: Contains font files, including the Cascadia Code font in various styles.
-  - **cascadia_code/**: Contains different styles of the Cascadia Code font.
+- **fonts/**: Contains font files and installation guides.
 - **git/**: Holds Git configuration files, including `.gitconfig`, `.gitignore`, and profiles for different environments.
   - **profiles/**: Contains different Git profiles.
 - **mytheme/**: Contains a custom VS Code theme, including `package.json`, `README.md`, and theme configuration files.

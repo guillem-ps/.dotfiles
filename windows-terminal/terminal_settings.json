@@ -82,63 +82,61 @@
             },
             "list": 
             [
-                {
-                    "adjustIndistinguishableColors": "always",
-                    "commandline": "%SystemRoot%\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
-                    "cursorShape": "underscore",
-                    "font": 
-                    {
-                        "face": "CaskaydiaCove Nerd Font"
-                    },
-                    "guid": "{61c54bbd-c2c6-5271-96e7-009a87ff44bf}",
-                    "hidden": false,
-                    "intenseTextStyle": "bright",
-                    "name": "Windows PowerShell",
-                    "useAcrylic": true
+              {
+                "adjustIndistinguishableColors": "always",
+                "commandline": "%SystemRoot%\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+                "cursorShape": "underscore",
+                "font": {
+                  "face": "CaskaydiaCove Nerd Font"
                 },
-                {
-                    "commandline": "%SystemRoot%\\System32\\cmd.exe",
-                    "guid": "{0caa0dad-35be-5f56-a8ff-afceeeaa6101}",
-                    "hidden": false,
-                    "name": "S\u00edmbolo del sistema"
+                "guid": "{61c54bbd-c2c6-5271-96e7-009a87ff44bf}",
+                "hidden": false,
+                "intenseTextStyle": "bright",
+                "name": "Windows PowerShell",
+                "useAcrylic": true
+              },
+              {
+                "commandline": "%SystemRoot%\\System32\\cmd.exe",
+                "guid": "{0caa0dad-35be-5f56-a8ff-afceeeaa6101}",
+                "hidden": false,
+                "name": "Command Prompt"
+              },
+              {
+                "adjustIndistinguishableColors": "always",
+                "colorScheme": "Solarized Dark",
+                "cursorShape": "underscore",
+                "elevate": true,
+                "experimental.retroTerminalEffect": false,
+                "font": {
+                  "face": "CaskaydiaCove Nerd Font"
                 },
-                {
-                    "adjustIndistinguishableColors": "always",
-                    "colorScheme": "Solarized Dark",
-                    "cursorShape": "underscore",
-                    "elevate": true,
-                    "experimental.retroTerminalEffect": false,
-                    "font": 
-                    {
-                        "face": "CaskaydiaCove Nerd Font"
-                    },
-                    "guid": "{0ffe5a42-5bfd-41c2-bf98-011f5c809e0e}",
-                    "hidden": false,
-                    "name": "Sudo ",
-                    "opacity": 81,
-                    "tabTitle": "Admin",
-                    "useAcrylic": true
+                "guid": "{0ffe5a42-5bfd-41c2-bf98-011f5c809e0e}",
+                "hidden": false,
+                "name": "Sudo ",
+                "opacity": 81,
+                "tabTitle": "Admin",
+                "useAcrylic": true
+              },
+              {
+                "commandline": "%PROGRAMFILES%\\Git\\bin\\bash.exe --login",
+                "guid": "{00000000-0000-0000-ba54-000000000002}",
+                "hidden": false,
+                "icon": "%PROGRAMFILES%/Git/mingw64/share/git/git-for-windows.ico",
+                "name": "Git bash",
+                "startingDirectory": "%USERPROFILE%"
+              },
+              {
+                "commandline": "ubuntu.exe",
+                "font": {
+                  "size": 13.0,
+                  "face": "CaskaydiaCove Nerd Font"
                 },
-                {
-                    "commandline": "C:/Program Files/Git/bin/bash.exe --login",
-                    "guid": "{00000000-0000-0000-ba54-000000000002}",
-                    "hidden": false,
-                    "icon": "%PROGRAMFILES%/Git/mingw64/share/git/git-for-windows.ico",
-                    "name": "Git bash",
-                    "startingDirectory": "%USERPROFILE%"
-                },
-                {
-                    "commandline": "ubuntu.exe",
-                    "font": 
-                    {
-                        "size": 13.0
-                    },
-                    "guid": "{a96fb1e0-c436-4d11-b054-221c21c31cf5}",
-                    "hidden": false,
-                    "icon": "https://assets.ubuntu.com/v1/49a1a858-favicon-32x32.png",
-                    "name": "Ubuntu",
-                    "tabTitle": "Ubuntu"
-                }
+                "guid": "{a96fb1e0-c436-4d11-b054-221c21c31cf5}",
+                "hidden": false,
+                "icon": "https://assets.ubuntu.com/v1/49a1a858-favicon-32x32.png",
+                "name": "Ubuntu",
+                "tabTitle": "Ubuntu"
+              }
             ]
         },
         "schemes": 

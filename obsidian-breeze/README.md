@@ -1,4 +1,4 @@
-# Obsidian Breeze README
+# Obsidian Breeze
 
 ## Introduction
 
@@ -13,7 +13,7 @@ Obsidian Breeze is a refined adaptation of the original [Rainglow GitHub Contras
 
 Below is a screenshot of a simple Python script that demonstrates how the colors from the `obsidian-breeze` theme are applied in the code. 
 
-![Color Capture](images/simple_example.png)
+![Color Capture](./images/simple_example.png)
 
 The script uses colors like Cyan, Yellow, Green, Red, and Magenta to display different types of text. This image provides a quick overview of how these colors appear in the theme.
 

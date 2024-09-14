@@ -1,14 +1,14 @@
 {
-  "name": "github-contrast-theme",
-  "displayName": "Custom github-contrast-theme",
-  "description": "Rainglow's github-contrast theme for Visual Studio Code with a few tweaks",
+  "name": "obsidian-breeze",
+  "displayName": "Obsidian Breeze",
+  "description": "Obsidian Breeze is a tweaked version of Rainglow's GitHub Contrast theme for Visual Studio Code, designed for enhanced clarity and modern aesthetics, including custom terminal colors.",
   "contributors": [
     {
       "name": "Guillem Pozo S.",
       "url": "https://github.com/guillem-ps"
     }
   ],
-  "version": "1.0.0",
+  "version": "1.1.0",
   "repository": {
     "type": "git",
     "url": "https://github.com/guillem-ps/.dotfiles"
@@ -27,9 +27,9 @@
   "contributes": {
     "themes": [
       {
-        "label": "my-theme",
+        "label": "Obsidian Breeze",
         "uiTheme": "vs-dark",
-        "path": "./themes/my-theme-color-theme.json"
+        "path": "./themes/obsidian-breeze-color-theme.json"
       }
     ]
   },

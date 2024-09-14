@@ -18,7 +18,7 @@ This repository contains basic configuration files for different applications to
 - **fonts/**: Contains font files and installation guides.
 - **git/**: Holds Git configuration files, including `.gitconfig`, `.gitignore`, and profiles for different environments.
   - **profiles/**: Contains different Git profiles.
-- **mytheme/**: Contains a custom VS Code theme, including `package.json`, `README.md`, and theme configuration files.
+- **obsidian-breeze/**: Contains a custom VS Code theme, including `package.json`, `README.md`, and theme configuration files.
   - **themes/**: Contains theme configuration files.
 - **python/**: Contains Python-related configuration files, including `.pypirc` and `ruff.toml`.
 - **tmux/**: Contains configuration files for tmux, including `tmux.conf`.
@@ -69,6 +69,6 @@ This repository contains basic configuration files for different applications to
 
 ## Additional Information
 
-- For more details on the custom VS Code theme, refer to the [`mytheme`](/mytheme/).
+- For more details on the custom VS Code theme, refer to the [`My theme`](/obsidian-breeze/).
 - For useful terminal plugins and their installation, refer to the [`bash/plugins`](/bash/plugins/).
 - For tmux custom configuration, refer to the [`tmux`](/tmux/)

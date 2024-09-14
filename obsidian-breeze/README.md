@@ -9,6 +9,14 @@ Obsidian Breeze is a refined adaptation of the original [Rainglow GitHub Contras
 - Custom terminal colors that enhance the overall look and feel.
 - Ideal for developers who prefer minimal distraction while maintaining style.
 
+## Theme Color Visualization
+
+Below is a screenshot of a simple Python script that demonstrates how the colors from the `obsidian-breeze` theme are applied in the code. 
+
+![Color Capture](images/simple_example.png)
+
+The script uses colors like Cyan, Yellow, Green, Red, and Magenta to display different types of text. This image provides a quick overview of how these colors appear in the theme.
+
 ## Installing the Theme
 
 ### Easy Path
@@ -25,3 +33,4 @@ To install the theme manually, follow these steps:
    - On macOS/Linux: `~/.vscode/extensions/`
 3. Restart Visual Studio Code.
 4. Go to `File > Preferences > Color Theme` and select `Obsidian Breeze` from the list.
+

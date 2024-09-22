@@ -102,8 +102,8 @@
     cp  = cherry-pick # Shortcut for 'git cherry-pick'
 
     # Diff:
-    d   = diff # Shortcut for 'git diff'
-    ds  = diff --color # Show diff with color
+    d   = diff --color # Shortcut for 'git diff' with color
+    ds  = diff --staged --color # Show diff for staged changes only with color
 
     # Fetch:
     f   = fetch # Shortcut for 'git fetch'

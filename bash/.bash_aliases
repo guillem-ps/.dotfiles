@@ -1,5 +1,5 @@
 
-# Alias: 
+# Alias:
 
 # Help Section
 alias \?='echo -e "\
@@ -44,18 +44,18 @@ deactivate_ssh_agent() {
         echo "No active SSH agent session found."
         return 1
     fi
-    
+
     return 0
 }
 
 # Function to start the SSH agent
 start_agent() {
-     echo "Initialising new SSH agent..."
-     /usr/bin/ssh-agent | sed 's/^echo/#echo/' > "${SSH_ENV}"
-     echo succeeded
-     chmod 600 "${SSH_ENV}"
-     # shellcheck disable=SC1090
-     . "${SSH_ENV}" > /dev/null
+    echo "Initialising new SSH agent..."
+    /usr/bin/ssh-agent | sed 's/^echo/#echo/' > "${SSH_ENV}"
+    echo succeeded
+    chmod 600 "${SSH_ENV}"
+    # shellcheck disable=SC1090
+    . "${SSH_ENV}" > /dev/null
     /usr/bin/ssh-add -t "${SSH_KEY_TIMEOUT}" "${SSH_KEY_PATH}" > /dev/null;
 }
 
@@ -138,20 +138,71 @@ function set_pyvenv_active() {
     pip --version
     return 0
 }
-
 function new_pyvenv() {
-    local venv_name="$1"
-    if [ -z "$venv_name" ]; then
-        venv_name=".venv"
+    local version=""
+    local venv_name=""
+    local py_command
+
+    if [[ "$1" == "--help" || "$1" == "-h" || "$2" == "--help" || "$2" == "-h" ]]; then
+        echo "Usage:    new_pyvenv [version] [venv_name]"
+        echo "This function creates a Python virtual environment using the specified Python version."
+        echo
+        echo "Arguments:   "
+        echo "  [version]      The Python version to use (e.g., 3.11). If not specified, the latest version will be used."
+        echo "  [venv_name]    The name of the virtual environment directory. If not specified, '.venv' will be used."
+        echo
+        echo "Examples:   "
+        echo "  new_pyvenv 3.11 myenv"
+        echo "  new_pyvenv 3 myenv"
+        echo "  new_pyvenv myenv"
+        echo "  new_pyvenv"
+        return 0
     fi
 
-    if [ -d "$venv_name" ]; then
-        return
+    if [[ "$1" =~ ^[0-9]+(\.[0-9]+)?$ ]]; then
+        version="$1"
+        venv_name="$2"
+    else
+        venv_name="$1"
     fi
 
-    python -m venv "$venv_name"
-    set_pyvenv_active "$venv_name"
-    python -m pip install --upgrade pip
+    # If version is not specified, get the latest Python version
+    if [ -z "$version" ]; then
+        py_command=$(compgen -c | grep -E "^python[0-9]+\.[0-9]+$" | sort -V | tail -n 1)
+    else
+        py_command=$(compgen -c | grep -E "^python${version}(\.[0-9]+)?$")
+    fi
+
+    if [[ -z $py_command ]]; then
+        echo "Python version $version not found."
+        return 1
+    fi
+
+    py_command=$(echo "$py_command" | sort -V | tail -n 1)
+
+    # If venv_name is not specified, use the default name ".venv"
+    venv_name="${venv_name:-.venv}"
+
+    $py_command -m venv "$venv_name"
+    if [ $? -ne 0 ]; then
+        echo "Failed to create virtual environment using $py_command"
+        return 1
+    fi
+
+    source "$venv_name/bin/activate"
+    if [ $? -ne 0 ]; then
+        echo "Failed to activate virtual environment"
+        return 1
+    fi
+
+    if ! command -v pip &> /dev/null; then
+        echo "pip not found, installing pip..."
+        curl -sS https://bootstrap.pypa.io/get-pip.py | $py_command
+    fi
+
+    pip install --upgrade pip
+    echo "Virtual environment named $venv_name created using $py_command"
+    return 0
 }
 
 function remove_pyvenv() {

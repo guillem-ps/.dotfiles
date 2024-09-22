@@ -148,7 +148,7 @@
     clean = git-media-clean %f
     smudge = git-media-smudge %f
 [init]
-    defaultBranch = main
+    defaultBranch = developer
 [pack]
     windowMemory = 10m
     packSizeLimit = 20m

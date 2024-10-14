@@ -104,6 +104,7 @@ remove : remove_pyvenv\n\
 install : install_dev_requirements\n\
 installr : install_requirements\n\
 installd : install_dev_requirements\n\
+installD : install_docs_requirements\n\
 pipi : pip install\n\
 pipu : pip uninstall\n\
 pips : pip show\n\
@@ -235,6 +236,10 @@ function install_dev_requirements() {
     install_requirements "requirements_dev.txt"
 }
 
+function install_docs_requirements() {
+    install_requirements "requirements_docs.txt"
+}
+
 # Python aliases
 alias py='python'
 alias python3='python'
@@ -247,6 +252,7 @@ alias remove='remove_pyvenv'
 alias install='install_dev_requirements'
 alias installr='install_requirements'
 alias installd='install_dev_requirements'
+alias installD='install_docs_requirements'
 
 alias pipi='pip install'
 alias pipu='pip uninstall'

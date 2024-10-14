@@ -94,8 +94,8 @@ alias ssh?='status_ssh_agent'
 
 # Function to display Python aliases
 function show_python_aliases() {
+echo -e "\033[1;34m-- Python Aliases --\033[0m"
     echo -e "\
--- Python Aliases --\n\
 py : python\n\
 python3 : python\n\
 create : new_pyvenv\n\
@@ -109,6 +109,7 @@ pipi : pip install\n\
 pipu : pip uninstall\n\
 pips : pip show\n\
 pipl : pip list\n\
+pipf : search_dependencies\n\
 "
 }
 
@@ -240,6 +241,28 @@ function install_docs_requirements() {
     install_requirements "requirements_docs.txt"
 }
 
+function search_dependencies() {
+    if [ "$1" = "-h" ] || [ "$1" = "--help" ]; then
+        echo "Usage: pipf <search_string>"
+        echo "Filter the output of 'pip freeze' based on the provided search string."
+        echo "Options:"
+        echo "  -h, --help    Show this help message and exit"
+        return 0
+    fi
+
+    if [ -z "$1" ]; then
+        echo "Usage: pipf <search_string>"
+        return 1
+    fi
+
+    # Run pip freeze and filter the output with colors
+    pip freeze | \
+        # Exclude editable installations
+        grep -v "^\-e" | \
+        # Filter based on user-provided string with color
+        GREP_COLOR='1;33' grep --color=auto "$1"
+}
+
 # Python aliases
 alias py='python'
 alias python3='python'
@@ -258,17 +281,19 @@ alias pipi='pip install'
 alias pipu='pip uninstall'
 alias pips='pip show'
 alias pipl='pip list'
+alias pipf='search_dependencies'
 
 
 # Network Section
 
 function show_network_aliases() {
-    echo -e "\
--- Network Aliases --\n\
+echo -e "\033[1;34m-- Network Aliases --\033[0m"
+echo -e "\
 myip : get_ip_address\n\
 localip : get_local_ip_address\n\
-
--- SSH Aliases --\n\
+"
+echo -e "\033[1;34m-- SSH Aliases -- \033[0m"
+echo -e "\
 notssh : deactivate_ssh_agent\n\
 ssh? : status_ssh_agent\n\
 reloadssh : notssh && start_agent\n\
@@ -306,30 +331,41 @@ fi
 
 # Alias to check installed plugins and explain aliases
 function show_plugins() {
+    echo -e "\033[1;34m-- Installed Plugins --\033[0m"
     echo "Checking installed plugins and explaining aliases..."
+
+    echo -e "\033[1;32m--- Exa ---\033[0m"
     if command -v exa &> /dev/null; then
-        echo "exa is installed:"
-        exa --version
+        exa_version=$(exa --version | awk 'NR==2 {print $1}')
+        echo "exa is installed: $exa_version"
         echo "Aliases for exa:"
         echo "  l  - exa with icons"
         echo "  la - exa with all files"
         echo "  ll - exa with long format and human-readable sizes"
         echo "  ls - exa with icons"
         echo "  lr - exa recursively with icons"
+    else
+        echo "exa is not installed."
     fi
 
+    echo -e "\033[1;32m--- Bat ---\033[0m"
     if command -v batcat &> /dev/null; then
-        echo "batcat is installed:"
-        batcat --version
+        batcat_version=$(batcat --version | head -n 1)
+        echo -e "batcat is installed: $batcat_version"
         echo "Alias for batcat:"
         echo "  bat - batcat (for Ubuntu/Debian based systems)"
+    else
+        echo "batcat is not installed."
     fi
 
+    echo -e "\033[1;32m--- Fzf ---\033[0m"
     if command -v fzf &> /dev/null; then
-        echo "fzf is installed:"
-        fzf --version
+        fzf_version=$(fzf --version | head -n 1)
+        echo -e "fzf is installed: $fzf_version"
         echo "Function for fzf:"
         echo "  batman - Uses fzf with bat for preview and opens selected file in vim"
+    else
+        echo "fzf is not installed."
     fi
 }
 

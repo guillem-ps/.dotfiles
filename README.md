@@ -49,7 +49,7 @@ This repository contains basic configuration files for different applications to
 
 ### For example:
 
-> [!WARNING] "Installation advice"
+> [!WARNING]
 > The .profile file assumes that you have oh-my-posh installed. If you do not have it installed, please follow the installation instructions on the [oh-my-posh website](https://ohmyposh.dev/).
 
 - For Bash configurations:

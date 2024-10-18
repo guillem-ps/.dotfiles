@@ -25,6 +25,7 @@ This repository contains basic configuration files for different applications to
 - **windows-terminal/**: Holds configuration files for Windows Terminal, such as `terminal_settings.json`.
 
 ## Installation
+
 1. Clone the repository to your local machine:
     Using SSH:
     ```bash
@@ -47,9 +48,12 @@ This repository contains basic configuration files for different applications to
 > Please read the README file in the plugins directory before copying.
 
 ### For example:
+
+> [!WARNING] "Installation advice"
+> The .profile file assumes that you have oh-my-posh installed. If you do not have it installed, please follow the installation instructions on the [oh-my-posh website](https://ohmyposh.dev/).
+
 - For Bash configurations:
     ```bash
-    cp bash/.bashrc ~/
     cp bash/.profile ~/
     cp bash/.bash_aliases ~/
     cp bash/plugins/.extra_alias ~/.extra_alias # OPTIONAL

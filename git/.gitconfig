@@ -7,7 +7,7 @@
     signingkey = your-signing-key
 
 [core]
-    sshCommand = C:/Windows/System32/OpenSSH/ssh.exe
+    sshCommand = ssh.exe
 
     pager = more
     editor = code --wait

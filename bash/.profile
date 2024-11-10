@@ -43,7 +43,7 @@ if [ -f "$POSH_PATH_INSTALLATION/oh-my-posh" ]; then
     fi
 fi
 
-if oh-my-posh --version &> /dev/null; then
+if oh-my-posh version &> /dev/null; then
     OH_MY_POSH_THEMES_PATH="amro.omp.json" # Change this to the name of the theme file
     SHELL_ENVIRONMENT=$(oh-my-posh get shell) # Get the current shell environment
     POSH_THEMES_PATH="$HOME/.cache/oh-my-posh/themes" # Change this to the path of the oh-my-posh themes directory

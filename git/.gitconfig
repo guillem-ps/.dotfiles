@@ -139,6 +139,11 @@
     su  = !git branch --set-upstream-to=origin/`git symbolic-ref --short HEAD` # Set the upstream branch for the current branch[color]
     status = auto
     ui = true
+
+    # Clean
+    flash = clean -dn # Don’t actually remove anything, just show what would be done.
+    wipe = clean -fdx  # Remove all untracked files and directories.
+    purge = !git reset --hard && git clean -fdx  # Remove all untracked files, directories, and reset tracked files to the last commit.
 [color "status"]
     added = green
     changed = yellow

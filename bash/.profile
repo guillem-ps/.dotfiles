@@ -1,14 +1,8 @@
 #!/bin/bash
-# Bash configuration file
-# Function to print lines safely
-if [ -n "$BASH_VERSION" ]; then
-    if [ -f "$HOME/.bashrc" ]; then
-        . ~/.bashrc
-    fi
-fi
 
 declare last_failed_command # Declare a variable to store the last failed command
 
+# Function to print lines safely
 println() {
     printf "%s\n" "$*"
 }

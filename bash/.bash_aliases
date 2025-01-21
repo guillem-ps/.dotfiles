@@ -2,17 +2,17 @@
 # Alias:
 
 # Help Section
-alias \?='echo -e "\
--- Alias --\n\
-alias\? : Display all aliases\n\
--- Generic --\n\
-generic\? : Display all generic aliases\n\
--- Python --\n\
-py? : Display all python aliases\n\
--- Network --\n\
-net? : Display all network aliases\n\
 
--- Plugins --\n\
+alias \?='echo -e "
+\033[1;34m-- Alias --\033[0m
+alias? : Display all aliases\n\
+\033[1;34m-- Generic --\033[0m
+generic? : Display all generic aliases\n\
+\033[1;34m-- Python --\\033[0m
+py? : Display all python aliases\n\
+\033[1;34m-- Network --\033[0m
+net? : Display all network aliases\n\
+\033[1;34m-- Plugins --\033[0m
 plugins? : Check installed plugins and explain aliases\n\
 For more information, check the docs: .dotfiles/bash/plugins readme.md file\n\
 "'

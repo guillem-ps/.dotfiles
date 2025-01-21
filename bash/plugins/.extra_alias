@@ -26,6 +26,6 @@ if [ -f $(which fzf) ] && [ -f $(which bat) ]; then # fzf with bat
     }
 elif [ -f $(which fzf) ] && [ ! -f $(which bat) ]; then # fzf without bat    
     function batman(){ 
-        file=$(fzf --preview='bat --color=always --style=numbers {}'); [ -f "$file" ] && vim $file || true 
+        file=$(fzf); [ -f "$file" ] && vim $file || true 
     }
 fi

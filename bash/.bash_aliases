@@ -5,6 +5,8 @@
 alias \?='echo -e "\
 -- Alias --\n\
 alias\? : Display all aliases\n\
+-- Generic --\n\
+generic\? : Display all generic aliases\n\
 -- Python --\n\
 py? : Display all python aliases\n\
 -- Network --\n\
@@ -16,6 +18,7 @@ For more information, check the docs: .dotfiles/bash/plugins readme.md file\n\
 "'
 
 alias alias?='
+show_generic_alises
 show_python_aliases
 show_network_aliases
 plugins?
@@ -319,15 +322,16 @@ function get_local_ip_address() {
     done
 }
 
-# Extra aliases
+# Network aliases
 alias myip='get_ip_address'
 alias localip='get_local_ip_address'
+
+# Extra section
 
 # Source extra aliases if the file exists
 if [ -f ~/.extra_alias ]; then
     source ~/.extra_alias
 fi
-
 
 # Alias to check installed plugins and explain aliases
 function show_plugins() {
@@ -370,3 +374,17 @@ function show_plugins() {
 }
 
 alias plugins?='show_plugins'
+
+# Generic aliases for system operations
+
+alias 2mimir='sudo apt update && sudo apt upgrade -y && read -p "Do you want to shut down the system? [y/N]: " choice && [[ "$choice" == "y" || "$choice" == "Y" ]] && sudo shutdown now || echo "Shutdown canceled."'
+
+show_generic_alises() {
+    echo -e "\033[1;34m-- Generic Aliases --\033[0m"
+    echo -e "\
+2mimir : update and upgrade the system and optionally shut down. Needs sudo privileges.\n\
+    "
+}
+
+# Alias to call the function
+alias generic\?='show_generic_alises'

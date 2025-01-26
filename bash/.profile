@@ -94,4 +94,4 @@ function tat {
 echo "Welcome, $(whoami)! Your SSH agent is ready to use. 🚀"
 echo "Next time you log in, you won't need to enter your SSH passphrase. until $(date -d "+${SSH_KEY_TIMEOUT} seconds")."
 
-echo "Check the docs for more information: https://github.com/guillem-ps/dotfiles"
+echo "Check the docs for more information: https://github.com/guillem-ps/.dotfiles"

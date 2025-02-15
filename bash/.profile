@@ -91,6 +91,10 @@ function tat {
   fi
 }
 
+if [ -n "$BASH_VERSION" ] && [ -f "$HOME/.bashrc" ]; then
+    . "$HOME/.bashrc"
+fi
+
 echo "Welcome, $(whoami)! Your SSH agent is ready to use. 🚀"
 echo "Next time you log in, you won't need to enter your SSH passphrase. until $(date -d "+${SSH_KEY_TIMEOUT} seconds")."
 

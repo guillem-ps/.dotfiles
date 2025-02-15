@@ -29,12 +29,12 @@ This repository contains basic configuration files for different applications to
 1. Clone the repository to your local machine:
     Using SSH:
     ```bash
-    git clone git@github.com:guillem_ps/dotfiles.git ~/.dotfiles
+    git clone git@github.com:guillem-ps/.dotfiles.git ~/.dotfiles
     ```
 
     Using HTTPS:
     ```bash
-    git clone https://github.com/guillem_ps/dotfiles.git ~/.dotfiles
+    git clone https://github.com/guillem-ps/.dotfiles.git ~/.dotfiles
     ```
 
 2. Navigate to the cloned directory:

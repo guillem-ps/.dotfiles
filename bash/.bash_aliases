@@ -333,6 +333,11 @@ if [ -f ~/.extra_alias ]; then
     source ~/.extra_alias
 fi
 
+# Source fzf config if the file exists
+if [ -f ~/.fzf.sh ]; then
+    source ~/.fzf.sh
+fi
+
 # Alias to check installed plugins and explain aliases
 function show_plugins() {
     echo -e "\033[1;34m-- Installed Plugins --\033[0m"
@@ -379,10 +384,32 @@ alias plugins?='show_plugins'
 
 alias 2mimir='sudo apt update && sudo apt upgrade -y && read -p "Do you want to shut down the system? [y/N]: " choice && [[ "$choice" == "y" || "$choice" == "Y" ]] && sudo shutdown now || echo "Shutdown canceled."'
 
+alias ..='cd ..'
+alias ...='cd ../..'
+alias ....='cd ../../../'
+
+alias serve='python3 -m http.server'
+alias week='date +%V'
+
+function whatsonport() {
+    lsof -i tcp:"$1"
+}
+
+function mkcd() {
+    mkdir -p "$1" && cd "$1" || return
+}
+
 show_generic_alises() {
     echo -e "\033[1;34m-- Generic Aliases --\033[0m"
     echo -e "\
 2mimir : update and upgrade the system and optionally shut down. Needs sudo privileges.\n\
+..     : go up one directory\n\
+...    : go up two directories\n\
+....   : go up three directories\n\
+serve  : start a HTTP server on current directory\n\
+week   : show current week number\n\
+whatsonport : show what is running on a given port\n\
+mkcd   : create a directory and cd into it\n\
     "
 }
 

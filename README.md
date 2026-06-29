@@ -15,12 +15,15 @@ This repository contains basic configuration files for different applications to
   - **plugins/**: Contains additional plugins and scripts for Bash.
     - `.extra_alias`: Optional extra aliases for Bash.
     - `plugins_installation.sh`: Script to install plugins.
+- **bat/**: Bat configuration using ANSI theme for terminal color consistency.
 - **fonts/**: Contains font files and installation guides.
+- **fzf/**: Fuzzy finder configuration with keybindings and custom colors.
 - **git/**: Holds Git configuration files, including `.gitconfig`, `.gitignore`, and profiles for different environments.
   - **profiles/**: Contains different Git profiles.
 - **obsidian-breeze/**: Contains a custom VS Code theme, including `package.json`, `README.md`, and theme configuration files.
   - **themes/**: Contains theme configuration files.
 - **python/**: Contains Python-related configuration files, including `.pypirc` and `ruff.toml`.
+- **starship/**: Cross-shell prompt configuration (Starship).
 - **tmux/**: Contains configuration files for tmux, including `tmux.conf`.
 - **windows-terminal/**: Holds configuration files for Windows Terminal, such as `terminal_settings.json`.
 
@@ -50,7 +53,7 @@ This repository contains basic configuration files for different applications to
 ### For example:
 
 > [!WARNING]
-> The .profile file assumes that you have oh-my-posh installed. If you do not have it installed, please follow the installation instructions on the [oh-my-posh website](https://ohmyposh.dev/).
+> The .profile file uses Starship as the default prompt, with oh-my-posh as fallback.
 
 - For Bash configurations:
     ```bash
@@ -58,6 +61,22 @@ This repository contains basic configuration files for different applications to
     cp bash/.bash_aliases ~/
     cp bash/plugins/.extra_alias ~/.extra_alias # OPTIONAL
     source ~/.bashrc
+    ```
+
+- For Starship prompt:
+    ```bash
+    cp starship/starship.toml ~/.config/starship.toml
+    ```
+
+- For FZF (fuzzy finder):
+    ```bash
+    cp fzf/.fzf.sh ~/.fzf.sh
+    ```
+
+- For Bat (syntax highlighting):
+    ```bash
+    mkdir -p ~/.config/bat
+    cp bat/config ~/.config/bat/config
     ```
 
 - For Windows Terminal configurations:
@@ -75,4 +94,5 @@ This repository contains basic configuration files for different applications to
 
 - For more details on the custom VS Code theme, refer to the [`My theme`](/obsidian-breeze/).
 - For useful terminal plugins and their installation, refer to the [`bash/plugins`](/bash/plugins/).
-- For tmux custom configuration, refer to the [`tmux`](/tmux/)
+- For tmux custom configuration with the Wilt color palette, refer to the [`tmux`](/tmux/).
+- For the Starship prompt configuration, refer to [`starship/starship.toml`](/starship/starship.toml).

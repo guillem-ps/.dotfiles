@@ -1,0 +1,35 @@
+# Starship prompt config
+"$schema" = 'https://starship.rs/config-schema.json'
+
+add_newline = true
+
+[character]
+success_symbol = "[➜](bold green)"
+error_symbol = "[➜](bold red)"
+
+[directory]
+truncation_length = 3
+
+[git_branch]
+style = "bold purple"
+
+[git_status]
+conflicted = "🏳"
+ahead = "⇡${count}"
+behind = "⇣${count}"
+stashed = "📦"
+
+[python]
+pyenv_version_name = true
+
+[package]
+disabled = true
+
+[docker_context]
+disabled = true
+
+[ruby]
+disabled = true
+
+[gcloud]
+disabled = true

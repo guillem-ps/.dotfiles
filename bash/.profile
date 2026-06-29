@@ -30,30 +30,25 @@ case "${unameOut}" in
     *)          machine="UNKNOWN:   ${unameOut}"
 esac
 
-POSH_PATH_INSTALLATION="$HOME/.local/bin" # Change this to the path of the oh-my-posh installation directory
-if [ -f "$POSH_PATH_INSTALLATION/oh-my-posh" ]; then
-    if ! echo "$PATH" | grep -q "$POSH_PATH_INSTALLATION"; then # Check if the path is already in the PATH variable
+# Prompt: prefer Starship, fall back to oh-my-posh
+if command -v starship &> /dev/null; then
+    eval "$(starship init bash)"
+elif command -v oh-my-posh &> /dev/null; then
+    POSH_PATH_INSTALLATION="$HOME/.local/bin"
+    if [ -f "$POSH_PATH_INSTALLATION/oh-my-posh" ] && ! echo "$PATH" | grep -q "$POSH_PATH_INSTALLATION"; then
         PATH="$POSH_PATH_INSTALLATION:$PATH"
     fi
-fi
 
-if oh-my-posh version &> /dev/null; then
-    OH_MY_POSH_THEMES_PATH="amro.omp.json" # Change this to the name of the theme file
-    SHELL_ENVIRONMENT=$(oh-my-posh get shell) # Get the current shell environment
-    POSH_THEMES_PATH="$HOME/.cache/oh-my-posh/themes" # Change this to the path of the oh-my-posh themes directory
+    OH_MY_POSH_THEMES_PATH="amro.omp.json"
+    SHELL_ENVIRONMENT=$(oh-my-posh get shell)
+    POSH_THEMES_PATH="$HOME/.cache/oh-my-posh/themes"
 
-    # Configure oh-my-posh based on the detected machine type
     case "${machine}" in
-        Linux | Mac)
-            # shellcheck disable=SC1090
-            source <(oh-my-posh --init --shell "$SHELL_ENVIRONMENT" --config "$POSH_THEMES_PATH/$OH_MY_POSH_THEMES_PATH")
-            ;;
-        Cygwin | MinGw | Git)
-            # shellcheck disable=SC1090
+        Linux | Mac | Cygwin | MinGw | Git)
             source <(oh-my-posh --init --shell "$SHELL_ENVIRONMENT" --config "$POSH_THEMES_PATH/$OH_MY_POSH_THEMES_PATH")
             ;;
         *)
-            echo "Unsupported OS:    ${machine}"
+            echo "Unsupported OS: ${machine}"
             return 1
             ;;
     esac

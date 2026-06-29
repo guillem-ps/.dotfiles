@@ -1,0 +1,2 @@
+# Use terminal's 16 ANSI colors for consistency across themes
+--theme="ansi"

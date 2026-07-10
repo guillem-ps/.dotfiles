@@ -136,9 +136,7 @@
     st  = stash # Shortcut for 'git stash'
 
     # Set upstream:
-    su  = !git branch --set-upstream-to=origin/`git symbolic-ref --short HEAD` # Set the upstream branch for the current branch[color]
-    status = auto
-    ui = true
+    su  = !git branch --set-upstream-to=origin/`git symbolic-ref --short HEAD` # Set the upstream branch for the current branch
 
     # Clean
     flash = clean -dn # Don’t actually remove anything, just show what would be done.
@@ -152,8 +150,6 @@
 [filter "media"]
     clean = git-media-clean %f
     smudge = git-media-smudge %f
-[init]
-    defaultBranch = developer
 [pack]
     windowMemory = 10m
     packSizeLimit = 20m

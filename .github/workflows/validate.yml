@@ -39,11 +39,11 @@ jobs:
             if [ -f "$f" ]; then
               echo "Validating: $f"
               pip install toml 2>/dev/null && python3 -c "
-import toml
-with open('$f') as fh:
-    toml.load(fh)
-print('  OK')
-" || echo "  (skipped — toml parser not available)"
+          import toml
+          with open('$f') as fh:
+              toml.load(fh)
+          print('  OK')
+          " || echo "  (skipped — toml parser not available)"
             fi
           done
 

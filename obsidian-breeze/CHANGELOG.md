@@ -1,5 +1,19 @@
 # Change Log
 
+## [1.1.3] - 2026-07-12
+### Fixed
+- Strict JSON in theme file (removed comments and trailing commas).
+- Terminal color adjustments for better contrast.
+
+## [1.1.2] - 2024-09-15
+### Fixed
+- Fixed image paths in README.
+
+## [1.1.1] - 2024-09-14
+### Changed
+- Added screenshots to README.
+- Fixed typos in README.
+
 ## [1.1.0] - 2024-09-14
 ### Changed
 - Renamed the extension from `my-theme` to `Obsidian Breeze`.

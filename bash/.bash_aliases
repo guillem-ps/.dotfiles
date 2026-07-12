@@ -267,8 +267,8 @@ function search_dependencies() {
 }
 
 # Python aliases
-alias py='python'
-alias python3='python'
+alias py='python3'
+alias python='python3'
 
 alias create='new_pyvenv'
 alias activate='set_pyvenv_active'

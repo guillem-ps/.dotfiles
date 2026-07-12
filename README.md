@@ -2,6 +2,14 @@
 
 > Nothing like home 🏡
 
+<p align="center">
+  <img src="https://img.shields.io/badge/license-MIT-blue" alt="MIT">
+  <img src="https://img.shields.io/badge/platform-Linux%20%7C%20macOS%20%7C%20Windows-lightgrey" alt="Platform">
+  <img src="https://img.shields.io/badge/shell-Bash-4EAA25?logo=gnubash&logoColor=white" alt="Bash">
+  <img src="https://img.shields.io/badge/VS%20Code-Obsidian%20Breeze-7385bc" alt="VS Code Theme">
+  <img src="https://img.shields.io/github/last-commit/guillem-ps/.dotfiles" alt="Last Commit">
+</p>
+
 This repository contains basic configuration files for different applications to facilitate easy migration across devices. 
 
 ## Table of Contents
@@ -29,7 +37,19 @@ This repository contains basic configuration files for different applications to
 
 ## Installation
 
-1. Clone the repository to your local machine:
+### Quick start (recommended)
+
+```bash
+git clone https://github.com/guillem-ps/.dotfiles.git ~/.dotfiles
+cd ~/.dotfiles
+./install.sh
+```
+
+The installer will guide you through each component interactively. Use `-y` for non-interactive mode.
+
+### Manual installation
+
+1. Clone the repository:
     Using SSH:
     ```bash
     git clone git@github.com:guillem-ps/.dotfiles.git ~/.dotfiles
@@ -45,7 +65,7 @@ This repository contains basic configuration files for different applications to
     cd ~/.dotfiles
     ```
 
-3. Copy the desired configuration files to their respective locations. 
+3. Copy the desired configuration files to their respective locations.
 
 > [!IMPORTANT]
 > Please read the README file in the plugins directory before copying.

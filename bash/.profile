@@ -54,6 +54,12 @@ elif command -v oh-my-posh &> /dev/null; then
     esac
 fi
 
+# Source bash_aliases early so start_agent (used below) is defined
+if [ -f "$HOME/.bash_aliases" ]; then
+    # shellcheck disable=SC1090
+    . "$HOME/.bash_aliases"
+fi
+
 # SSH configuration
 SSH_KEY_NAME="<name_of_private_key>" # Change this to the name of your SSH key
 SSH_KEY_PATH="$HOME/.ssh/$SSH_KEY_NAME" # Change this to the path of your SSH key

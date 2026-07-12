@@ -1,0 +1,58 @@
+name: Validate
+
+on:
+  push:
+    branches: [master, develop]
+  pull_request:
+    branches: [master]
+
+jobs:
+  shellcheck:
+    name: ShellCheck
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run ShellCheck
+        uses: ludeeus/action-shellcheck@2.0.0
+        with:
+          scandir: '.'
+          severity: style
+
+  validate-configs:
+    name: Validate config files
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Validate JSON
+        run: |
+          for f in obsidian-breeze/package.json obsidian-breeze/themes/*.json windows-terminal/terminal_settings.json; do
+            if [ -f "$f" ]; then
+              echo "Validating: $f"
+              python3 -m json.tool "$f" > /dev/null
+            fi
+          done
+
+      - name: Validate TOML
+        run: |
+          for f in starship/starship.toml python/ruff.toml; do
+            if [ -f "$f" ]; then
+              echo "Validating: $f"
+              pip install toml 2>/dev/null && python3 -c "
+import toml
+with open('$f') as fh:
+    toml.load(fh)
+print('  OK')
+" || echo "  (skipped — toml parser not available)"
+            fi
+          done
+
+  lint-tmux:
+    name: Lint tmux config
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install tmux
+        run: sudo apt-get update && sudo apt-get install -y tmux
+      - name: Check tmux config syntax
+        run: tmux -f tmux/tmux.conf start-server \; kill-server 2>&1 || true

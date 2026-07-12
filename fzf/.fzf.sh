@@ -1,17 +1,22 @@
+#!/usr/bin/env bash
 # Set up fzf keybindings and autocompletion for bash
 # Tries multiple methods for cross-distro compatibility
 
 if command -v fzf &> /dev/null; then
     # Method 1: built-in --bash option (newer versions)
     if fzf --bash &> /dev/null; then
+        # shellcheck disable=SC1090
         source <(fzf --bash)
     # Method 2: system-installed key bindings (Debian/Ubuntu apt)
     elif [ -f /usr/share/doc/fzf/examples/key-bindings.bash ]; then
+        # shellcheck disable=SC1091
         source /usr/share/doc/fzf/examples/key-bindings.bash
+        # shellcheck disable=SC1091
         [ -f /usr/share/doc/fzf/examples/completion.bash ] && \
             source /usr/share/doc/fzf/examples/completion.bash
     # Method 3: user-local config (created by fzf installer)
     elif [ -f ~/.fzf.bash ]; then
+        # shellcheck disable=SC1090
         source ~/.fzf.bash
     fi
 fi

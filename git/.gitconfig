@@ -7,7 +7,6 @@
     signingkey = your-signing-key
 
 [core]
-    sshCommand = ssh.exe
 
     pager = more
     editor = code --wait

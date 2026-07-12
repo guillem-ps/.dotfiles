@@ -112,6 +112,31 @@ link_file() {
     log_ok "Linked: $dest → $src"
 }
 
+# === Core: copy file with backup (for files holding per-machine values) ===
+copy_file() {
+    local src="$1"
+    local dest="$2"
+
+    if [ ! -e "$src" ]; then
+        log_error "Source not found: $src"
+        return 1
+    fi
+
+    if [ -e "$dest" ] || [ -L "$dest" ]; then
+        if ! confirm "Overwrite $dest? (local edits, e.g. SSH_KEY_NAME, will be lost)"; then
+            log_info "Skipped: $dest"
+            return 0
+        fi
+        local backup="${dest}${BACKUP_SUFFIX}"
+        log_warn "Backing up: $dest → $backup"
+        run_cmd mv "$dest" "$backup"
+    fi
+
+    run_cmd mkdir -p "$(dirname "$dest")"
+    run_cmd cp "$src" "$dest"
+    log_ok "Copied: $dest (edit it locally, e.g. SSH_KEY_NAME — it won't be overwritten by re-running this script without confirmation)"
+}
+
 # === OS detection ===
 detect_os() {
     local uname_out
@@ -134,7 +159,8 @@ install_git() {
 
 install_bash() {
     log_info "--- Bash ---"
-    link_file "$SCRIPT_DIR/bash/.profile" "$HOME/.profile"
+    copy_file "$SCRIPT_DIR/bash/.profile" "$HOME/.profile"
+    log_info "Remember to set SSH_KEY_NAME in ~/.profile to your own key"
     link_file "$SCRIPT_DIR/bash/.bash_aliases" "$HOME/.bash_aliases" \
         "Skipping .bash_aliases (may contain customisations; overwrite manually if needed)"
 }

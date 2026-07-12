@@ -47,6 +47,9 @@ cd ~/.dotfiles
 
 The installer will guide you through each component interactively. Use `-y` for non-interactive mode.
 
+> [!NOTE]
+> `~/.profile` is **copied**, not symlinked, since it holds a per-machine value (`SSH_KEY_NAME`). After installing, edit `~/.profile` to set `SSH_KEY_NAME` to your own SSH key filename. Re-running the installer won't overwrite your copy without asking first.
+
 ### Manual installation
 
 1. Clone the repository:

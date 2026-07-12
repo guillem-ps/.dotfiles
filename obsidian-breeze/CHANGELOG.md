@@ -1,5 +1,9 @@
 # Change Log
 
+## [1.1.5] - 2026-07-12
+### Changed
+- Version bump: 1.1.4 → 1.1.5
+
 ## [1.1.4] - 2026-07-12
 ### Changed
 - Version bump: 1.1.3 → 1.1.4

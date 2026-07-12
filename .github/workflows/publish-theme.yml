@@ -68,13 +68,6 @@ jobs:
           tenant-id: ${{ secrets.AZURE_TENANT_ID }}
           allow-no-subscriptions: true
 
-      # TEMPORARY DEBUG STEP — remove once the Marketplace publisher member
-      # has been added with the correct identity ID printed below.
-      - name: Get Team Foundation identity id
-        run: |
-          az rest -u https://app.vssps.visualstudio.com/_apis/profile/profiles/me \
-            --resource 499b84ac-1321-427f-aa17-267ca6975798
-
       - name: Publish to VS Code Marketplace
         working-directory: obsidian-breeze
         run: vsce publish --azure-credential

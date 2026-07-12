@@ -2,7 +2,8 @@
 
 ## [1.1.5] - 2026-07-12
 ### Changed
-- Version bump: 1.1.4 → 1.1.5
+- No functional changes — release used to validate the Marketplace
+  publish pipeline (Azure AD/OIDC auth). Content is identical to 1.1.4.
 
 ## [1.1.4] - 2026-07-12
 ### Changed

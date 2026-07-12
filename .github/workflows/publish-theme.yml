@@ -50,8 +50,16 @@ jobs:
           DATE=$(date +%Y-%m-%d)
           VERSION="${{ steps.bump.outputs.new }}"
           PREV_VERSION="${{ steps.version.outputs.current }}"
-          ENTRY="## [$VERSION] - $DATE\n### Changed\n- Version bump: $PREV_VERSION → $VERSION\n"
-          echo -e "${ENTRY}\n$(cat CHANGELOG.md)" > CHANGELOG.md
+          {
+            echo "# Change Log"
+            echo ""
+            echo "## [$VERSION] - $DATE"
+            echo "### Changed"
+            echo "- Version bump: $PREV_VERSION → $VERSION"
+            echo ""
+            tail -n +3 CHANGELOG.md
+          } > CHANGELOG.md.tmp
+          mv CHANGELOG.md.tmp CHANGELOG.md
 
       - name: Azure login
         uses: azure/login@v3

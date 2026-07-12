@@ -53,6 +53,19 @@ jobs:
           ENTRY="## [$VERSION] - $DATE\n### Changed\n- Version bump: $PREV_VERSION → $VERSION\n"
           echo -e "${ENTRY}\n$(cat CHANGELOG.md)" > CHANGELOG.md
 
+      - name: Azure login
+        uses: azure/login@v3
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          allow-no-subscriptions: true
+
+      - name: Publish to VS Code Marketplace
+        working-directory: obsidian-breeze
+        run: vsce publish --azure-credential
+
+      # Only reached if publish above succeeded — a failed publish must not
+      # leave a version bump / tag / commit behind with nothing published.
       - name: Commit and tag
         run: |
           git config user.name "github-actions[bot]"
@@ -61,15 +74,3 @@ jobs:
           git commit -m "chore: release obsidian-breeze v${{ steps.bump.outputs.new }}"
           git tag "v${{ steps.bump.outputs.new }}"
           git push && git push --tags
-
-      - name: Azure login
-        uses: azure/login@v3
-        with:
-          client-id: ${{ secrets.AZURE_CLIENT_ID }}
-          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
-          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
-          allow-no-subscriptions: true
-
-      - name: Publish to VS Code Marketplace
-        working-directory: obsidian-breeze
-        run: vsce publish --azure-credential

@@ -115,7 +115,7 @@ The installer will guide you through each component interactively. Use `-y` for 
 
 ## Additional Information
 
-- For more details on the custom VS Code theme, refer to the [`My theme`](/obsidian-breeze/).
+- For more details on the custom VS Code theme, refer to the [`My theme`](/obsidian-breeze/), or install it directly from the [VS Code Marketplace](https://marketplace.visualstudio.com/items?itemName=guillem-ps.obsidian-breeze).
 - For useful terminal plugins and their installation, refer to the [`bash/plugins`](/bash/plugins/).
 - For tmux custom configuration with the Wilt color palette, refer to the [`tmux`](/tmux/).
 - For the Starship prompt configuration, refer to [`starship/starship.toml`](/starship/starship.toml).

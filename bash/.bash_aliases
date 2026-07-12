@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 
 # Alias:
 
@@ -17,6 +18,7 @@ plugins? : Check installed plugins and explain aliases\n\
 For more information, check the docs: .dotfiles/bash/plugins readme.md file\n\
 "'
 
+# shellcheck disable=SC2139
 alias alias?='
 show_generic_alises
 show_python_aliases
@@ -91,6 +93,7 @@ status_ssh_agent() {
 
     return 0
 }
+# shellcheck disable=SC2139
 alias ssh?='status_ssh_agent'
 
 # Python functions
@@ -138,6 +141,7 @@ function set_pyvenv_active() {
         venv_name=".venv"
     fi
 
+    # shellcheck disable=SC1091
     source "$venv_name/bin/activate"
 
     pip --version
@@ -188,14 +192,13 @@ function new_pyvenv() {
     # If venv_name is not specified, use the default name ".venv"
     venv_name="${venv_name:-.venv}"
 
-    $py_command -m venv "$venv_name"
-    if [ $? -ne 0 ]; then
+    if ! $py_command -m venv "$venv_name"; then
         echo "Failed to create virtual environment using $py_command"
         return 1
     fi
 
-    source "$venv_name/bin/activate"
-    if [ $? -ne 0 ]; then
+    # shellcheck disable=SC1091
+    if ! source "$venv_name/bin/activate"; then
         echo "Failed to activate virtual environment"
         return 1
     fi
@@ -330,11 +333,13 @@ alias localip='get_local_ip_address'
 
 # Source extra aliases if the file exists
 if [ -f ~/.extra_alias ]; then
+    # shellcheck disable=SC1090
     source ~/.extra_alias
 fi
 
 # Source fzf config if the file exists
 if [ -f ~/.fzf.sh ]; then
+    # shellcheck disable=SC1090
     source ~/.fzf.sh
 fi
 
@@ -378,10 +383,12 @@ function show_plugins() {
     fi
 }
 
+# shellcheck disable=SC2139
 alias plugins?='show_plugins'
 
 # Generic aliases for system operations
 
+# shellcheck disable=SC2154 # choice is assigned by the `read` above it
 alias 2mimir='sudo apt update && sudo apt upgrade -y && read -p "Do you want to shut down the system? [y/N]: " choice && [[ "$choice" == "y" || "$choice" == "Y" ]] && sudo shutdown now || echo "Shutdown canceled."'
 
 alias ..='cd ..'

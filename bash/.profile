@@ -45,6 +45,7 @@ elif command -v oh-my-posh &> /dev/null; then
 
     case "${machine}" in
         Linux | Mac | Cygwin | MinGw | Git)
+            # shellcheck disable=SC1090
             source <(oh-my-posh --init --shell "$SHELL_ENVIRONMENT" --config "$POSH_THEMES_PATH/$OH_MY_POSH_THEMES_PATH")
             ;;
         *)
@@ -56,12 +57,13 @@ fi
 
 # Source bash_aliases early so start_agent (used below) is defined
 if [ -f "$HOME/.bash_aliases" ]; then
-    # shellcheck disable=SC1090
+    # shellcheck disable=SC1090,SC1091
     . "$HOME/.bash_aliases"
 fi
 
 # SSH configuration
 SSH_KEY_NAME="<name_of_private_key>" # Change this to the name of your SSH key
+# shellcheck disable=SC2034 # used by start_agent() in bash_aliases, sourced above
 SSH_KEY_PATH="$HOME/.ssh/$SSH_KEY_NAME" # Change this to the path of your SSH key
 SSH_KEY_TIMEOUT=3600 # 1 hour in seconds
 SSH_ENV="$HOME/.ssh/agent-environment"
@@ -81,7 +83,7 @@ fi
 
 # tat: tmux attach
 function tat {
-  name=$(basename `pwd` | sed -e 's/\.//g')
+  name=$(basename "$(pwd)" | sed -e 's/\.//g')
 
   if tmux ls 2>&1 | grep "$name"; then
     tmux attach -t "$name"
@@ -93,6 +95,7 @@ function tat {
 }
 
 if [ -n "$BASH_VERSION" ] && [ -f "$HOME/.bashrc" ]; then
+    # shellcheck disable=SC1090,SC1091
     . "$HOME/.bashrc"
 fi
 

@@ -2,7 +2,6 @@
 	"name": "github-contrast-theme",
 	"type": "dark",
 	"tokenColors": [
-	// CUSTOM THEME HERE:
 	{
 		"name": "[*Light*]",
 		"scope": "ref.matchtext",
@@ -86,10 +85,10 @@
 		"settings": {
 		  "foreground": "#D81E5B"
 		}
-	}, // END OF MY CUSTOM
+	},
 	{
 		"settings": {
-		"foreground": "#ffffff",
+		"foreground": "#ffffff"
 		}
 	},
 	{
@@ -317,14 +316,14 @@
 		"name": "Function argument",
 		"scope": ["meta.use support.class.builtin", "meta.other.inherited-class support.class.builtin"],
 		"settings": {
-		"foreground": "#7385bc",
+		"foreground": "#7385bc"
 		}
 	},
 	{
 		"name": "Function argument",
 		"scope": "variable.other",
 		"settings": {
-		"foreground": "#26c1c1",
+		"foreground": "#26c1c1"
 		}
 	},
 	{
@@ -507,7 +506,6 @@
 	"gitDecoration.conflictingResourceForeground": "#9d37fc",
 	"editorBracketMatch.background": "#7385bc44",
 	"editorBracketMatch.border": "#66c4c4",
-	// Custom Terminal colors
 	"terminal.ansiBlack": "#111111",
 	"terminal.ansiBlue": "#7385bc",
 	"terminal.ansiBrightBlack": "#444444",
@@ -526,7 +524,6 @@
     "terminal.ansiYellow": "#FB6107",
     "terminal.background": "#131313",
 	"terminal.foreground": "#FCFCF0",
-	// END OF CUSTOM TERMINAL COLORS
 	"extensionButton.prominentBackground": "#7385bc",
 	"extensionButton.prominentForeground": "#ffffff",
 	"extensionButton.prominentHoverBackground": "#95a3cc",

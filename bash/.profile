@@ -62,11 +62,13 @@ if [ -f "$HOME/.bash_aliases" ]; then
 fi
 
 # SSH configuration
+# Exported so non-login child shells (which never source this file) inherit them;
+# start_agent() falls back to the same defaults when they are absent.
 SSH_KEY_NAME="<name_of_private_key>" # Change this to the name of your SSH key
-# shellcheck disable=SC2034 # used by start_agent() in bash_aliases, sourced above
 SSH_KEY_PATH="$HOME/.ssh/$SSH_KEY_NAME" # Change this to the path of your SSH key
 SSH_KEY_TIMEOUT=3600 # 1 hour in seconds
 SSH_ENV="$HOME/.ssh/agent-environment"
+export SSH_KEY_NAME SSH_KEY_PATH SSH_KEY_TIMEOUT SSH_ENV
 
 # Source SSH settings, if applicable
 if [ -f "${SSH_ENV}" ]; then

@@ -54,14 +54,32 @@ deactivate_ssh_agent() {
 }
 
 # Function to start the SSH agent
+# Resolves its own defaults so it works in non-login shells too, where
+# ~/.profile (which sets SSH_KEY_NAME and friends) is never sourced.
 start_agent() {
+    local ssh_env="${SSH_ENV:-$HOME/.ssh/agent-environment}"
+    local key_timeout="${SSH_KEY_TIMEOUT:-3600}"
+    local key_path="${SSH_KEY_PATH:-$HOME/.ssh/${SSH_KEY_NAME:-id_ed25519}}"
+
     echo "Initialising new SSH agent..."
-    /usr/bin/ssh-agent | sed 's/^echo/#echo/' > "${SSH_ENV}"
-    echo succeeded
-    chmod 600 "${SSH_ENV}"
+    # PIPESTATUS[0] (not $?, which would only reflect sed) is needed here
+    # because this file is sourced into interactive shells without pipefail.
+    /usr/bin/ssh-agent | sed 's/^echo/#echo/' > "${ssh_env}"
+    if [ "${PIPESTATUS[0]}" -ne 0 ]; then
+        echo "Failed to write agent environment to '${ssh_env}'." >&2
+        return 1
+    fi
+    chmod 600 "${ssh_env}"
     # shellcheck disable=SC1090
-    . "${SSH_ENV}" > /dev/null
-    /usr/bin/ssh-add -t "${SSH_KEY_TIMEOUT}" "${SSH_KEY_PATH}" > /dev/null;
+    . "${ssh_env}" > /dev/null
+    echo succeeded
+
+    if [ ! -f "${key_path}" ]; then
+        echo "SSH key not found: ${key_path}" >&2
+        echo "Set SSH_KEY_NAME in ~/.profile to the name of your key in ~/.ssh." >&2
+        return 1
+    fi
+    /usr/bin/ssh-add -t "${key_timeout}" "${key_path}" > /dev/null
 }
 
 alias notssh='deactivate_ssh_agent'

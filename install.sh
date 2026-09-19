@@ -116,6 +116,7 @@ link_file() {
 copy_file() {
     local src="$1"
     local dest="$2"
+    local example="${3:-your local edits}"
 
     if [ ! -e "$src" ]; then
         log_error "Source not found: $src"
@@ -123,9 +124,9 @@ copy_file() {
     fi
 
     if [ -e "$dest" ] || [ -L "$dest" ]; then
-        if ! confirm "Overwrite $dest? (local edits, e.g. SSH_KEY_NAME, will be lost)"; then
+        if ! confirm "Overwrite $dest? (local edits, e.g. $example, will be lost)"; then
             log_info "Skipped: $dest"
-            return 0
+            return 2
         fi
         local backup="${dest}${BACKUP_SUFFIX}"
         log_warn "Backing up: $dest → $backup"
@@ -134,7 +135,21 @@ copy_file() {
 
     run_cmd mkdir -p "$(dirname "$dest")"
     run_cmd cp "$src" "$dest"
-    log_ok "Copied: $dest (edit it locally, e.g. SSH_KEY_NAME — it won't be overwritten by re-running this script without confirmation)"
+    log_ok "Copied: $dest (edit it locally, e.g. $example — it won't be overwritten by re-running this script without confirmation)"
+}
+
+# === Core: ask for a value that cannot be left blank ===
+prompt_required() {
+    local prompt="$1"
+    local value=""
+    while [ -z "$value" ]; do
+        if ! read -r -p "$prompt: " value; then
+            log_error "No input available for: $prompt"
+            return 1
+        fi
+        [ -z "$value" ] && log_warn "This value is required."
+    done
+    printf '%s' "$value"
 }
 
 # === OS detection ===
@@ -153,13 +168,26 @@ detect_os() {
 
 install_git() {
     log_info "--- Git ---"
-    link_file "$SCRIPT_DIR/git/.gitconfig" "$HOME/.gitconfig"
+    # Copied (not symlinked): user.name/username/email are per-machine values,
+    # so ~/.gitconfig must be an independent file, not a link back into the repo.
+    if copy_file "$SCRIPT_DIR/git/.gitconfig" "$HOME/.gitconfig" "user.name/username/email"; then
+        log_info "Git identity (name, username, email are always asked — they have no safe default):"
+        local git_name git_username git_email
+        git_name="$(prompt_required "  Name")" || return 1
+        git_username="$(prompt_required "  Username")" || return 1
+        git_email="$(prompt_required "  Email")" || return 1
+
+        run_cmd git config -f "$HOME/.gitconfig" user.name "$git_name"
+        run_cmd git config -f "$HOME/.gitconfig" user.username "$git_username"
+        run_cmd git config -f "$HOME/.gitconfig" user.email "$git_email"
+        log_ok "Git identity set: $git_name <$git_email>"
+    fi
     link_file "$SCRIPT_DIR/git/.gitignore" "$HOME/.gitignore"
 }
 
 install_bash() {
     log_info "--- Bash ---"
-    copy_file "$SCRIPT_DIR/bash/.profile" "$HOME/.profile"
+    copy_file "$SCRIPT_DIR/bash/.profile" "$HOME/.profile" "SSH_KEY_NAME"
     log_info "Remember to set SSH_KEY_NAME in ~/.profile to your own key"
     link_file "$SCRIPT_DIR/bash/.bash_aliases" "$HOME/.bash_aliases" \
         "Skipping .bash_aliases (may contain customisations; overwrite manually if needed)"
@@ -239,7 +267,7 @@ main() {
     fi
 
     # Core configs
-    if confirm "Install Git configuration?";        then install_git;    fi
+    if confirm "Install Git configuration?";        then install_git || log_warn "Git configuration incomplete"; fi
     if confirm "Install Bash configuration?";       then install_bash;   fi
     if confirm "Install FZF configuration?";        then install_fzf;    fi
     if confirm "Install Starship configuration?";   then install_starship; fi

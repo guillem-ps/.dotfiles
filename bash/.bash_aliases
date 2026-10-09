@@ -79,7 +79,15 @@ start_agent() {
         echo "Set SSH_KEY_NAME in ~/.profile to the name of your key in ~/.ssh." >&2
         return 1
     fi
-    /usr/bin/ssh-add -t "${key_timeout}" "${key_path}" > /dev/null
+    if [ -t 0 ]; then
+        /usr/bin/ssh-add -t "${key_timeout}" "${key_path}" > /dev/null
+    else
+        # No controlling terminal to prompt for the passphrase (e.g. a GDM
+        # graphical login, where /dev/tty isn't reachable) - bound the wait
+        # instead of hanging the whole session startup forever.
+        timeout 10 /usr/bin/ssh-add -t "${key_timeout}" "${key_path}" < /dev/null > /dev/null 2>&1 || \
+            echo "Skipped loading SSH key (no terminal to ask for the passphrase); run 'ssh-add ${key_path}' manually later." >&2
+    fi
 }
 
 alias notssh='deactivate_ssh_agent'

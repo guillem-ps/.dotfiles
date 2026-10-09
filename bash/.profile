@@ -16,8 +16,6 @@ error() {
 
 # Trap ERR to capture the last failed command and call error handler
 trap 'last_failed_command=$BASH_COMMAND; error_code=$?; if [[ $error_code -ne 0 ]]; then error 1234 "Something went wrong."; fi' ERR
-# Example command that will fail
-false
 
 # System check and configuration based on sanitized input
 unameOut="$(uname -s)"
@@ -74,13 +72,16 @@ export SSH_KEY_NAME SSH_KEY_PATH SSH_KEY_TIMEOUT SSH_ENV
 if [ -f "${SSH_ENV}" ]; then
      # shellcheck disable=SC1090
      . "${SSH_ENV}" > /dev/null
-     
-     # shellcheck disable=SC2009
-     ps -ef | grep "${SSH_AGENT_PID}" | grep ssh-agent$ > /dev/null || {
-         start_agent;
-     }
+
+     # Treat the stored PID as stale unless it is both alive and actually an
+     # ssh-agent (a bare "ps | grep $SSH_AGENT_PID" false-positives on any
+     # ssh-agent process when the PID is empty or has been reused since the
+     # last reboot).
+     if ! { [ -n "${SSH_AGENT_PID}" ] && kill -0 "${SSH_AGENT_PID}" 2>/dev/null && [ "$(ps -p "${SSH_AGENT_PID}" -o comm=)" = "ssh-agent" ]; }; then
+         start_agent
+     fi
 else
-     start_agent;
+     start_agent
 fi
 
 # tat: tmux attach

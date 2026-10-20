@@ -92,10 +92,13 @@ The installer will guide you through each component interactively (git, bash, fz
 - For Bash configurations:
     ```bash
     cp bash/.profile ~/.profile
-    ln -s "$(pwd)/bash/.bash_aliases" ~/.bash_aliases
+    cp bash/.bash_aliases ~/.bash_aliases
     ln -s "$(pwd)/bash/plugins/.extra_alias" ~/.extra_alias # OPTIONAL
     source ~/.bashrc
     ```
+
+    `.bash_aliases` is copied so it can be customized locally. Re-copy it after
+    updating this repository if you want to pick up upstream changes.
 
     Set your SSH key name in `~/.ssh_env_local` (untracked, create it yourself):
     ```bash

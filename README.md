@@ -45,10 +45,10 @@ cd ~/.dotfiles
 ./install.sh
 ```
 
-The installer will guide you through each component interactively. Use `-y` for non-interactive mode.
+The installer will guide you through each component interactively (git, bash, fzf, starship, bat, tmux, python, plus optional extra aliases). Use `-y` for non-interactive mode, `-n` to dry-run.
 
 > [!NOTE]
-> `~/.profile` is **copied**, not symlinked, since it holds a per-machine value (`SSH_KEY_NAME`). After installing, edit `~/.profile` to set `SSH_KEY_NAME` to your own SSH key filename. Re-running the installer won't overwrite your copy without asking first.
+> `~/.profile` is **copied**, not symlinked, since it can hold local edits. Per-machine SSH key settings (`SSH_KEY_NAME`, optionally `SSH_KEY_TIMEOUT`) go in `~/.ssh_env_local` (untracked, create it yourself — see comment in `bash/.profile`). Re-running the installer won't overwrite your copy without asking first.
 
 ### Manual installation
 
@@ -78,28 +78,46 @@ The installer will guide you through each component interactively. Use `-y` for 
 > [!WARNING]
 > The .profile file uses Starship as the default prompt, with oh-my-posh as fallback.
 
+- For Git:
+    ```bash
+    ln -s "$(pwd)/git/.gitconfig" ~/.gitconfig
+    ln -s "$(pwd)/git/.gitignore" ~/.gitignore
+    ```
+
 - For Bash configurations:
     ```bash
-    cp bash/.profile ~/
-    cp bash/.bash_aliases ~/
-    cp bash/plugins/.extra_alias ~/.extra_alias # OPTIONAL
+    cp bash/.profile ~/.profile
+    ln -s "$(pwd)/bash/.bash_aliases" ~/.bash_aliases
+    ln -s "$(pwd)/bash/plugins/.extra_alias" ~/.extra_alias # OPTIONAL
     source ~/.bashrc
     ```
 
 - For Starship prompt:
     ```bash
-    cp starship/starship.toml ~/.config/starship.toml
+    ln -s "$(pwd)/starship/starship.toml" ~/.config/starship.toml
     ```
 
 - For FZF (fuzzy finder):
     ```bash
-    cp fzf/.fzf.sh ~/.fzf.sh
+    ln -s "$(pwd)/fzf/.fzf.sh" ~/.fzf.sh
     ```
 
 - For Bat (syntax highlighting):
     ```bash
     mkdir -p ~/.config/bat
-    cp bat/config ~/.config/bat/config
+    ln -s "$(pwd)/bat/config" ~/.config/bat/config
+    ```
+
+- For Tmux:
+    ```bash
+    mkdir -p ~/.config/tmux
+    ln -s "$(pwd)/tmux/tmux.conf" ~/.config/tmux/tmux.conf
+    ```
+
+- For Python (ruff, PyPI config):
+    ```bash
+    ln -s "$(pwd)/python/ruff.toml" ~/.ruff.toml
+    ln -s "$(pwd)/python/.pypirc" ~/.pypirc # OPTIONAL
     ```
 
 - For Windows Terminal configurations:

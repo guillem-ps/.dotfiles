@@ -25,7 +25,7 @@ declare -A plugins=(
 
 # Add exa or eza based on the Ubuntu version
 # Docs: https://github.com/telekom-security/tpotce/issues/1525
-if (( $(echo "$ubuntu_version < 24.04" | bc -l) )); then
+if dpkg --compare-versions "$ubuntu_version" lt 24.04; then
     plugins["exa"]="exa"
 else
     plugins["eza"]="eza"

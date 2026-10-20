@@ -30,7 +30,7 @@ This repository contains basic configuration files for different applications to
   - **profiles/**: Contains different Git profiles.
 - **obsidian-breeze/**: Contains a custom VS Code theme, including `package.json`, `README.md`, and theme configuration files.
   - **themes/**: Contains theme configuration files.
-- **python/**: Contains Python-related configuration files, including `.pypirc` and `ruff.toml`.
+- **python/**: Contains Python-related configuration files, including `.pypirc.template` and `ruff.toml`.
 - **starship/**: Cross-shell prompt configuration (Starship).
 - **tmux/**: Contains configuration files for tmux, including `tmux.conf`.
 - **windows-terminal/**: Holds configuration files for Windows Terminal, such as `terminal_settings.json`.
@@ -80,7 +80,12 @@ The installer will guide you through each component interactively (git, bash, fz
 
 - For Git:
     ```bash
-    ln -s "$(pwd)/git/.gitconfig" ~/.gitconfig
+    # Copied, not symlinked: user.name/username/email are per-machine values.
+    # A symlink would put your real identity inside this repo's tracked file.
+    cp git/.gitconfig ~/.gitconfig
+    git config -f ~/.gitconfig user.name "Your Name"
+    git config -f ~/.gitconfig user.username "your-username"
+    git config -f ~/.gitconfig user.email "your-email@example.com"
     ln -s "$(pwd)/git/.gitignore" ~/.gitignore
     ```
 
@@ -90,6 +95,11 @@ The installer will guide you through each component interactively (git, bash, fz
     ln -s "$(pwd)/bash/.bash_aliases" ~/.bash_aliases
     ln -s "$(pwd)/bash/plugins/.extra_alias" ~/.extra_alias # OPTIONAL
     source ~/.bashrc
+    ```
+
+    Set your SSH key name in `~/.ssh_env_local` (untracked, create it yourself):
+    ```bash
+    echo 'SSH_KEY_NAME="your_key_name"' > ~/.ssh_env_local
     ```
 
 - For Starship prompt:
@@ -117,7 +127,9 @@ The installer will guide you through each component interactively (git, bash, fz
 - For Python (ruff, PyPI config):
     ```bash
     ln -s "$(pwd)/python/ruff.toml" ~/.ruff.toml
-    ln -s "$(pwd)/python/.pypirc" ~/.pypirc # OPTIONAL
+    # Copied, not symlinked: ~/.pypirc holds an API token. A symlink would
+    # put that token inside this repo's tracked file. # OPTIONAL
+    cp python/.pypirc.template ~/.pypirc
     ```
 
 - For Windows Terminal configurations:

@@ -28,20 +28,20 @@ plugins?
 
 # SSH section
 
+# SSH agent config (must live here, not .profile: .bash_aliases is the only
+# file sourced by both login and non-login shells via .bashrc)
+# Per-machine overrides (SSH_KEY_NAME, SSH_KEY_TIMEOUT) go in ~/.ssh_env_local
+# (untracked) so this repo-tracked file stays generic.
+# shellcheck disable=SC1091
+[ -f "$HOME/.ssh_env_local" ] && . "$HOME/.ssh_env_local"
+SSH_KEY_NAME="${SSH_KEY_NAME:-<name_of_private_key>}" # Set SSH_KEY_NAME in ~/.ssh_env_local, don't edit here
+SSH_KEY_PATH="$HOME/.ssh/$SSH_KEY_NAME" # Derived from SSH_KEY_NAME above
+SSH_KEY_TIMEOUT="${SSH_KEY_TIMEOUT:-3600}" # 1 hour in seconds
+SSH_ENV="$HOME/.ssh/agent-environment"
+
 # deactivate_ssh_agent
 # Deactivate the running ssh-agent session
 deactivate_ssh_agent() {
-    if [ "$1" == "--help" ] || [ "$1" == "-h" ]; then
-        echo "Usage:    deactivate_ssh_agent"
-        echo "Deactivates the running ssh-agent session."
-        echo
-        echo "No arguments are needed. The function checks if an ssh-agent session is active and deactivates it."
-        echo
-        echo "Examples:   "
-        echo "  deactivate_ssh_agent"
-        return 0
-    fi
-
     if [ -n "$SSH_AUTH_SOCK" ] ; then
         eval "$(ssh-agent -k)"
         echo "SSH agent session deactivated."
@@ -53,41 +53,39 @@ deactivate_ssh_agent() {
     return 0
 }
 
-# Function to start the SSH agent
-# Resolves its own defaults so it works in non-login shells too, where
-# ~/.profile (which sets SSH_KEY_NAME and friends) is never sourced.
-start_agent() {
-    local ssh_env="${SSH_ENV:-$HOME/.ssh/agent-environment}"
-    local key_timeout="${SSH_KEY_TIMEOUT:-3600}"
-    local key_path="${SSH_KEY_PATH:-$HOME/.ssh/${SSH_KEY_NAME:-id_ed25519}}"
-
-    echo "Initialising new SSH agent..."
-    # PIPESTATUS[0] (not $?, which would only reflect sed) is needed here
-    # because this file is sourced into interactive shells without pipefail.
-    /usr/bin/ssh-agent | sed 's/^echo/#echo/' > "${ssh_env}"
-    if [ "${PIPESTATUS[0]}" -ne 0 ]; then
-        echo "Failed to write agent environment to '${ssh_env}'." >&2
-        return 1
-    fi
-    chmod 600 "${ssh_env}"
-    # shellcheck disable=SC1090
-    . "${ssh_env}" > /dev/null
-    echo succeeded
-
-    if [ ! -f "${key_path}" ]; then
-        echo "SSH key not found: ${key_path}" >&2
-        echo "Set SSH_KEY_NAME in ~/.profile to the name of your key in ~/.ssh." >&2
+# Add SSH_KEY_PATH to the running agent. Bounded when there's no controlling
+# terminal (e.g. a GDM graphical login, where /dev/tty isn't reachable) so a
+# passphrase prompt never hangs the whole session startup forever.
+_ssh_add_key() {
+    if [ ! -f "${SSH_KEY_PATH}" ]; then
+        echo "SSH key not found: ${SSH_KEY_PATH}" >&2
+        echo "Set SSH_KEY_NAME in ~/.ssh_env_local to the name of your key in ~/.ssh." >&2
         return 1
     fi
     if [ -t 0 ]; then
-        /usr/bin/ssh-add -t "${key_timeout}" "${key_path}" > /dev/null
+        /usr/bin/ssh-add -t "${SSH_KEY_TIMEOUT}" "${SSH_KEY_PATH}" > /dev/null
     else
-        # No controlling terminal to prompt for the passphrase (e.g. a GDM
-        # graphical login, where /dev/tty isn't reachable) - bound the wait
-        # instead of hanging the whole session startup forever.
-        timeout 10 /usr/bin/ssh-add -t "${key_timeout}" "${key_path}" < /dev/null > /dev/null 2>&1 || \
-            echo "Skipped loading SSH key (no terminal to ask for the passphrase); run 'ssh-add ${key_path}' manually later." >&2
+        timeout 10 /usr/bin/ssh-add -t "${SSH_KEY_TIMEOUT}" "${SSH_KEY_PATH}" < /dev/null > /dev/null 2>&1 || \
+            echo "Skipped loading SSH key (no terminal to ask for the passphrase); run 'ssh-add ${SSH_KEY_PATH}' manually later." >&2
     fi
+}
+
+# Function to start the SSH agent
+start_agent() {
+    echo "Initialising new SSH agent..."
+    # PIPESTATUS[0] (not $?, which would only reflect sed) is needed here
+    # because this file is sourced into interactive shells without pipefail.
+    /usr/bin/ssh-agent | sed 's/^echo/#echo/' > "${SSH_ENV}"
+    if [ "${PIPESTATUS[0]}" -ne 0 ]; then
+        echo "Failed to write agent environment to '${SSH_ENV}'." >&2
+        return 1
+    fi
+    chmod 600 "${SSH_ENV}"
+    # shellcheck disable=SC1090
+    . "${SSH_ENV}" > /dev/null
+    echo succeeded
+
+    _ssh_add_key
 }
 
 alias notssh='deactivate_ssh_agent'
@@ -97,18 +95,6 @@ alias reloadssh='notssh && start_agent'
 # ssh_agent_status
 # Check the status of the running SSH agent
 status_ssh_agent() {
-    if [ "$1" == "--help" ] || [ "$1" == "-h" ]; then
-        echo "Usage:    ssh_agent_status"
-        echo "Check the status of the running SSH agent."
-        echo
-        echo "No arguments are needed. The function checks if an ssh-agent session is active and prints the status."
-        echo
-        echo "Examples:   "
-        echo "  ssh_agent_status"
-        return 0
-    fi
-
-
     echo "SSH Agent PID: $SSH_AGENT_PID"
     if [ -n "$SSH_AGENT_PID" ]; then
         ssh-add -l
@@ -448,3 +434,6 @@ mkcd   : create a directory and cd into it\n\
 
 # Alias to call the function
 alias generic\?='show_generic_alises'
+
+# Call happy claude instead of claude
+#alias claude='happy claude'

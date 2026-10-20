@@ -1,22 +1,5 @@
 #!/bin/bash
 
-declare last_failed_command # Declare a variable to store the last failed command
-
-# Function to print lines safely
-println() {
-    printf "%s\n" "$*"
-}
-
-# Function to handle errors safely
-error() {
-    local error_code=$?
-    printf '\e[31mError (%d): %s\e[m\n' "$error_code" "${@:2}" >&2
-    printf 'Last command executed: %s\n' "$last_failed_command" >&2
-}
-
-# Trap ERR to capture the last failed command and call error handler
-trap 'last_failed_command=$BASH_COMMAND; error_code=$?; if [[ $error_code -ne 0 ]]; then error 1234 "Something went wrong."; fi' ERR
-
 # System check and configuration based on sanitized input
 unameOut="$(uname -s)"
 case "${unameOut}" in
@@ -53,33 +36,32 @@ elif command -v oh-my-posh &> /dev/null; then
     esac
 fi
 
-# Source bash_aliases early so start_agent (used below) is defined
+# Per-machine SSH key customization: put SSH_KEY_NAME (and optionally
+# SSH_KEY_TIMEOUT) in ~/.ssh_env_local (untracked, create it yourself, e.g.
+# `echo 'SSH_KEY_NAME="my_key"' > ~/.ssh_env_local`). Picked up automatically
+# below by .bash_aliases.
+
+# Source bash_aliases early: defines start_agent and the SSH_KEY_PATH /
+# SSH_KEY_TIMEOUT / SSH_ENV vars (needed for both login and non-login shells)
 if [ -f "$HOME/.bash_aliases" ]; then
     # shellcheck disable=SC1090,SC1091
     . "$HOME/.bash_aliases"
 fi
-
-# SSH configuration
-# Exported so non-login child shells (which never source this file) inherit them;
-# start_agent() falls back to the same defaults when they are absent.
-SSH_KEY_NAME="<name_of_private_key>" # Change this to the name of your SSH key
-SSH_KEY_PATH="$HOME/.ssh/$SSH_KEY_NAME" # Change this to the path of your SSH key
-SSH_KEY_TIMEOUT=3600 # 1 hour in seconds
-SSH_ENV="$HOME/.ssh/agent-environment"
-export SSH_KEY_NAME SSH_KEY_PATH SSH_KEY_TIMEOUT SSH_ENV
 
 # Source SSH settings, if applicable
 if [ -f "${SSH_ENV}" ]; then
      # shellcheck disable=SC1090
      . "${SSH_ENV}" > /dev/null
 
-     # Treat the stored PID as stale unless it is both alive and actually an
-     # ssh-agent (a bare "ps | grep $SSH_AGENT_PID" false-positives on any
-     # ssh-agent process when the PID is empty or has been reused since the
-     # last reboot).
-     if ! { [ -n "${SSH_AGENT_PID}" ] && kill -0 "${SSH_AGENT_PID}" 2>/dev/null && [ "$(ps -p "${SSH_AGENT_PID}" -o comm=)" = "ssh-agent" ]; }; then
-         start_agent
-     fi
+     # ssh-add -l exit codes: 0 = identity loaded, 1 = agent alive but has
+     # no identities (key never loaded or expired via ssh-add -t timeout),
+     # 2 = agent unreachable/dead.
+     /usr/bin/ssh-add -l > /dev/null 2>&1
+     case $? in
+         0) ;;
+         1) _ssh_add_key ;;
+         2) start_agent ;;
+     esac
 else
      start_agent
 fi

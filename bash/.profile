@@ -48,22 +48,27 @@ if [ -f "$HOME/.bash_aliases" ]; then
     . "$HOME/.bash_aliases"
 fi
 
-# Source SSH settings, if applicable
-if [ -f "${SSH_ENV}" ]; then
-     # shellcheck disable=SC1090
-     . "${SSH_ENV}" > /dev/null
+# Do not start or unlock an SSH agent while a graphical login manager is
+# sourcing this file. GDM sources ~/.profile before the desktop session is
+# available; ssh-add may still open /dev/tty to request the passphrase there.
+# Initialize the agent only from an interactive shell with a real terminal.
+if [ -n "$BASH_VERSION" ] && [[ $- == *i* ]] && [ -t 0 ]; then
+    if [ -f "${SSH_ENV}" ]; then
+         # shellcheck disable=SC1090
+         . "${SSH_ENV}" > /dev/null
 
-     # ssh-add -l exit codes: 0 = identity loaded, 1 = agent alive but has
-     # no identities (key never loaded or expired via ssh-add -t timeout),
-     # 2 = agent unreachable/dead.
-     /usr/bin/ssh-add -l > /dev/null 2>&1
-     case $? in
-         0) ;;
-         1) _ssh_add_key ;;
-         2) start_agent ;;
-     esac
-else
-     start_agent
+         # ssh-add -l exit codes: 0 = identity loaded, 1 = agent alive but has
+         # no identities (key never loaded or expired via ssh-add -t timeout),
+         # 2 = agent unreachable/dead.
+         /usr/bin/ssh-add -l > /dev/null 2>&1
+         case $? in
+             0) ;;
+             1) _ssh_add_key ;;
+             2) start_agent ;;
+         esac
+    else
+         start_agent
+    fi
 fi
 
 # tat: tmux attach

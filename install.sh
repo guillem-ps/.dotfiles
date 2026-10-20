@@ -111,18 +111,30 @@ install_file() {
             return 0
         fi
         local backup="${dest}${BACKUP_SUFFIX}"
-        log_warn "Backing up: $dest → $backup"
+        if [ "$DRY_RUN" = true ]; then
+            log_warn "Would back up: $dest → $backup"
+        else
+            log_warn "Backing up: $dest → $backup"
+        fi
         run_cmd mv "$dest" "$backup"
     fi
 
     run_cmd mkdir -p "$(dirname "$dest")"
     if [ "$mode" = link ]; then
         run_cmd ln -sf "$src" "$dest"
-        log_ok "Linked: $dest → $src"
+        if [ "$DRY_RUN" = true ]; then
+            log_info "Would link: $dest → $src"
+        else
+            log_ok "Linked: $dest → $src"
+        fi
     else
         run_cmd cp "$src" "$dest"
         local example="${note:-your local edits}"
-        log_ok "Copied: $dest (edit it locally, e.g. $example — it won't be overwritten by re-running this script without confirmation)"
+        if [ "$DRY_RUN" = true ]; then
+            log_info "Would copy: $src → $dest"
+        else
+            log_ok "Copied: $dest (edit it locally, e.g. $example — it won't be overwritten by re-running this script without confirmation)"
+        fi
     fi
 }
 
